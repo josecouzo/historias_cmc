@@ -10,7 +10,7 @@ from .models import UserData
 
 def render_usuarios(request):
     usuarios = User.objects.all()
-    return render(request, 'usuarios_index.html',{'usuarios': usuarios})
+    return render(request, 'usuarios_index.html', {'usuarios': usuarios})
 
 
 def create_user(request):
@@ -54,3 +54,9 @@ def create_user(request):
     else:
         form = UserForm()
     return render(request, 'add_user.html', {'form': form})
+
+
+def create_user_super(request):
+    User.objects.create_superuser('admin', 'jose.couzo95@example.com', 'Qwerty-1234')
+    usuarios = User.objects.all()
+    return render(request, 'usuarios_index.html', {'usuarios': usuarios})
