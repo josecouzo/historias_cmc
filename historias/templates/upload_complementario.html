@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block style %}
+    <link href="{% static 'plugins/datatables/media/css/dataTables.bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css' %}"
+          rel="stylesheet">
+    <link href="{% static 'plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+{% endblock %}
+{% block pageTitle %}Añadir Complementario{% endblock %}
+{% block titulo %}Añadir Complementario{% endblock %}
+{% block breadcrumb %}
+    <li><a href="#"><i class="demo-pli-home"></i></a></li>
+    <li><a href="/historias/historias/">Historias</a></li>
+    <li><a href="#">Complementario</a></li>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Insertar Complementarios</h3>
+                </div>
+                <form method="post" class="form-horizontal" enctype="multipart/form-data" data-parsley-validate novalidate>
+                    {% csrf_token %}
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="mar-btm">
+                                <label>Nombre</label>
+                                {{ formComplementario.nombre }}
+                            </div>
+                            <div class="mar-btm">
+                                <label>Nota</label>
+                                {{ formComplementario.nota }}
+                            </div>
+                            <div class="mar-btm">
+                                <label>Archivos</label>
+                                {{ formComplementario.files_complementarios }}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+                        <button class="btn btn-primary">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6"><br>
+                {% for complementario in complementarios %}
+                    <div class="panel panel-primary" >
+                        <!--Panel heading-->
+                        <div class="panel-heading">
+                            <div class="panel-control">
+                                <!--Nav tabs-->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab"
+                                                          href="#demo-tabs-box{{ complementario.id }}-1"
+                                                          aria-expanded="true">
+                                        Complementario
+                                    </a></li>
+                                    <li class=""><a data-toggle="tab" href="#demo-tabs-box{{ complementario.id }}-2"
+                                                    aria-expanded="false">
+                                        Notas
+                                    </a></li>
+
+                                </ul>
+                                <button class="btn btn-sm btn-danger delete_btn "
+                                        data-id="{{ complementario.id }}">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+
+                            </div>
+                            <h3 class="panel-title">{{ complementario.nombre }}</h3>
+                        </div>
+
+                        <!--Panel body-->
+                        <div class="panel-body">
+
+                            <!--Tabs content-->
+                            <div class="tab-content">
+                                <div id="demo-tabs-box{{ complementario.id }}-1" class="tab-pane fade active in">
+                                  <h4><a class="btn btn-info btn-sm " href="/media/{{ complementario.complementario }}"><i class="fa fa-download"></i></a> {{ complementario.nombre }} </h4>
+                                </div>
+                                <div id="demo-tabs-box{{ complementario.id }}-2" class="tab-pane fade">
+                                    <p class="text-main text-lg mar-no">Observaciones</p>
+                                    {{ complementario.nota }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{% static 'plugins/parsley/parsley.js' %}"></script>
+    <script src="{% static 'js/pages/historias/upload_complementario.js' %}"></script>
+{% endblock %}

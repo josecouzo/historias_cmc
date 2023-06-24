@@ -1,0 +1,672 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block style %}
+
+    <link href="{% static 'plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/parsley/parsley.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/bootstrap-datepicker/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+            integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-body ">
+                <button class="btn btn-success" id="imprimir"><i class="fa fa-print"></i>Imprimir</button>
+                <div class="row" id="print">
+
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="panel">
+                            <div class="panel panel-bordered panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Datos Generales</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-lg-4">
+                                        <ul class="list-group bg-trans bord-no">
+                                            <li class="list-group-item list-item-sm">
+                                                <div class="media-left">
+                                                    <i class="fa fa-user-circle"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text-semibold">{{ historia.nombre }}</p>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-item-sm">
+                                                <div class="media-left">
+                                                    <i class="fa fa-mobile"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text-semibold">  {{ historia.telefono }}</p>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item list-item-sm">
+                                                <div class="media-left">
+                                                    <i class="fa fa-birthday-cake"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text-semibold">{{ edada }}</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h5>Antecedentes Familiares</h5>
+                                        <p>{{ historia.antecedentes_familiares }}</p>
+                                        <h5>Antecedentes Personales</h5>
+                                        <p>{{ historia.antecedentes_perosnales }}</p>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h5>Operaciones</h5>
+                                        <div class="list-group bg-trans">
+                                            {% for operacion in ctx.listaOperaciones %}
+                                                <p><span
+                                                        class="badge badge-danger badge-icon badge-fw pull-left"></span>
+                                                    {{ operacion.anyo }}|{{ operacion.tipo }}</p>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <!--Stacked Tabs Left-->
+                            <!--===================================================-->
+                            {% for consulta in ctx.historia.conusltas.all %}
+
+
+                                <div class="panel  panel-primary">
+                                    <!--Panel heading-->
+                                    <div class="panel-heading">
+                                        <div class="panel-control">
+                                            <em class="text-muted"><small>{{ consulta.date_of_creation }}</small></em>
+                                            </button>
+                                        </div>
+                                        <h3 class="panel-title">Consulta No {{ forloop.counter }}</h3>
+                                    </div>
+                                    <!--Panel body-->
+                                    <div class="panel-body">
+                                        <h4>Interrogatorio</h4>
+                                        <hr>
+                                        <p><strong>Motivo de Consulta: </strong>{{ consulta.motivo_consulta }}</p>
+                                        <p><strong>Historia Enfermedad
+                                            Actual: </strong>{{ consulta.historia_enfermedad_actual }}</p>
+                                        <h4>Examen Físico</h4>
+                                        <hr>
+                                        <p><strong>Impresion General: </strong>{{ consulta.inpresion_general }}</p>
+                                        <h5>Signos Vitales</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <p><strong>FC: </strong>{% if consulta.fc %}
+                                                    {{ consulta.fc }}{% else %}
+                                                    Sin Alteración{% endif %}</p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>TA: </strong>{% if consulta.ta %}
+                                                    {{ consulta.ta }}{% else %}
+                                                    Sin Alteración{% endif %}</p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>FR: </strong>{% if consulta.fr %}
+                                                    {{ consulta.fr }}{% else %}
+                                                    Sin Alteración{% endif %}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p><strong>PULSO: </strong>{% if consulta.pulso %}
+                                                    {{ consulta.pulso }}{% else %}Sin Alteración{% endif %}</p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <p><strong>T° Auxiliar: </strong>{% if consulta.tAuxiliar %}
+                                                    {{ consulta.tAuxiliar }}{% else %}Sin Alteración{% endif %}</p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>T° rectal: </strong>{% if consulta.tReactal %}
+                                                    {{ consulta.tReactal }}{% else %}Sin Alteración{% endif %}</p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>Peso Habitual: </strong>{% if consulta.peso_habitual %}
+                                                    {{ consulta.peso_habitual }}{% else %}Sin Alteración{% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>Peso Actual: </strong>{% if consulta.peso_actual %}
+                                                    {{ consulta.peso_actual }}{% else %}Sin Alteración{% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>Talla: </strong>{% if consulta.talla %}
+                                                    {{ consulta.talla }}{% else %}Sin Alteración{% endif %}</p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>IMC: </strong>{% if consulta.imc %}
+                                                    {{ consulta.imc }}{% else %}Sin Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Inspección General</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p><strong>Hábito Constitucional: </strong>
+                                                    {% if consulta.habito_constitucional %}
+                                                        {{ consulta.habito_constitucional }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p><strong>Marcha: </strong>{% if consulta.marcha %}
+                                                    {{ consulta.marcha }}{% else %}Sin Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Piel, Faneras y Tejido celular subcutaneo</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Lesiones: </strong>{% if consulta.lesiones %}
+                                                    {{ consulta.lesiones }}{% else %}Sin Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <p><strong>Tejido Celular Subcutáneo: </strong>
+                                                    {% if consulta.tejido_celular_subcutaneo %}
+                                                        {{ consulta.tejido_celular_subcutaneo }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Cabeza</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p><strong>Cráneo cara: </strong>
+                                                    {% if consulta.craneo_cara %}
+                                                        {{ consulta.craneo_cara }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p><strong>Cuero cabelludo: </strong>
+                                                    {% if consulta.cuero_cabelludo %}
+                                                        {{ consulta.cuero_cabelludo }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Cuello</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Inspeción: </strong>
+                                                    {% if consulta.cuello_inspecion %}
+                                                        {{ consulta.cuello_inspecion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Palpitación: </strong>
+                                                    {% if consulta.cuello_palpitacion %}
+                                                        {{ consulta.cuello_palpitacion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Percusión: </strong>
+                                                    {% if consulta.cuello_percucion %}
+                                                        {{ consulta.cuello_percucion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Auscultación: </strong>
+                                                    {% if consulta.cuello_auscultacion %}
+                                                        {{ consulta.cuello_auscultacion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Torax</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Piel: </strong>
+                                                    {% if consulta.torax_piel %}
+                                                        {{ consulta.torax_piel }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Forma: </strong>
+                                                    {% if consulta.torax_forma %}
+                                                        {{ consulta.torax_forma }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Mamas</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <p><strong>Forma: </strong>
+                                                    {% if consulta.mama_forma %}
+                                                        {{ consulta.mama_forma }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>Tamaño: </strong>
+                                                    {% if consulta.mama_tamanyo %}
+                                                        {{ consulta.mama_tamanyo }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>Simetría: </strong>
+                                                    {% if consulta.mama_simetria %}
+                                                        {{ consulta.mama_simetria }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <p><strong>Áreolas: </strong>
+                                                    {% if consulta.mama_areolas %}
+                                                        {{ consulta.mama_areolas }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <p><strong>Pezones: </strong>
+                                                    {% if consulta.mama_pezones %}
+                                                        {{ consulta.mama_pezones }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Aparato Respiratorio</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Murmullo vesicular: </strong>
+                                                    {% if consulta.murmullo_vesicular %}
+                                                        {{ consulta.murmullo_vesicular }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Tiraje: </strong>
+                                                    {% if consulta.tiraje %}
+                                                        {{ consulta.tiraje }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Aparato Cardiovascular</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Ruidos cardiacos: </strong>
+                                                    {% if consulta.ruidos_cardiovascular %}
+                                                        {{ consulta.ruidos_cardiovascular }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Soplos: </strong>
+                                                    {% if consulta.soplos %}
+                                                        {{ consulta.soplos }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Abdomen</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Inspeción: </strong>
+                                                    {% if consulta.abdomen_inspecion %}
+                                                        {{ consulta.abdomen_inspecion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Palpación: </strong>
+                                                    {% if consulta.abdomen_palpacion %}
+                                                        {{ consulta.abdomen_palpacion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <p><strong>Percusión: </strong>
+                                                    {% if consulta.abdomen_percucion %}
+                                                        {{ consulta.abdomen_percucion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <p><strong>Auscultación: </strong>
+                                                    {% if consulta.abdomen_auscultacion %}
+                                                        {{ consulta.abdomen_auscultacion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Exámen Obstétrico</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>AU: </strong>
+                                                    {% if consulta.obstetrico_au %}
+                                                        {{ consulta.obstetrico_au }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Maniobra de Leopold: </strong>
+                                                    {% if consulta.obstetrico_maniobre_leopold %}
+                                                        {{ consulta.obstetrico_maniobre_leopold }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+
+                                        <h5>Aparato Genitourinario</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
+                                                <p style="color: #0e4377"><strong>Puño Percusión</strong></p>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <p><strong>Puño percusión Lumbar: </strong>
+                                                    {% if consulta.genitourinario_percucion_lumbar %}
+                                                        {{ consulta.genitourinario_percucion_lumbar }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <p><strong>Derecha: </strong>
+                                                    {% if consulta.genitourinario_percucion_derecha %}
+                                                        {{ consulta.genitourinario_percucion_derecha }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <p><strong>Izquierda: </strong>
+                                                    {% if consulta.genitourinario_percucion_izquierda %}
+                                                        {{ consulta.genitourinario_percucion_izquierda }}{% else %}
+                                                        Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <p><strong>Tacto Vaginal: </strong>
+                                                {% if consulta.genitourinario_tacto_vaginal %}
+                                                    {{ consulta.genitourinario_tacto_vaginal }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p><strong>Vulva: </strong>
+                                                {% if consulta.genitourinario_vulva %}
+                                                    {{ consulta.genitourinario_vulva }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p><strong>Flujo: </strong>
+                                                {% if consulta.genitourinario_flujo %}
+                                                    {{ consulta.genitourinario_flujo }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p><strong>Cuello Uterino: </strong>
+                                                {% if consulta.genitourinario_cuello_uterino %}
+                                                    {{ consulta.genitourinario_cuello_uterino }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+
+                                        <h5>Sistema Nervioso</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Estado de conciencia: </strong>
+                                                    {% if consulta.nervioso_estado %}
+                                                        {{ consulta.nervioso_estado }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3 text-right">
+                                                <p style="color: #0e4377"><strong>Glasgow</strong></p>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <p><strong>Ocular: </strong>
+                                                    {% if consulta.nervioso_glasgow_ocular %}
+                                                        {{ consulta.nervioso_glasgow_ocular }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <p><strong>Motor: </strong>
+                                                    {% if consulta.nervioso_glasgow_motor %}
+                                                        {{ consulta.nervioso_glasgow_motor }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <p><strong>Verbal: </strong>
+                                                    {% if consulta.nervioso_glasgow_verbal %}
+                                                        {{ consulta.nervioso_glasgow_verbal }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Conducta: </strong>
+                                                    {% if consulta.nervioso_conducta %}
+                                                        {{ consulta.nervioso_conducta }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Lenguaje: </strong>
+                                                    {% if consulta.nervioso_lenguaje %}
+                                                        {{ consulta.nervioso_lenguaje }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Pares craneales: </strong>
+                                                    {% if consulta.nervioso_paredes_craneales %}
+                                                        {{ consulta.nervioso_paredes_craneales }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Reflejos: Fotomotor: </strong>
+                                                    {% if consulta.nervioso_reflejos_fotomotor %}
+                                                        {{ consulta.nervioso_reflejos_fotomotor }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Acomodación: </strong>
+                                                    {% if consulta.nervioso_reflejos_acomodacion %}
+                                                        {{ consulta.nervioso_reflejos_acomodacion }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Reflejos osteotendinosos: </strong>
+                                                    {% if consulta.nervioso_reflejos_osteotendinosos %}
+                                                        {{ consulta.nervioso_reflejos_osteotendinosos }}{% else %}
+                                                        Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Motricidad: </strong>
+                                                    {% if consulta.nervioso_motricidad %}
+                                                        {{ consulta.nervioso_motricidad }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Babinski: </strong>
+                                                    {% if consulta.nervioso_babinski %}
+                                                        {{ consulta.nervioso_babinski }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Sensibilidad: </strong>
+                                                    {% if consulta.nervioso_sensibilidad %}
+                                                        {{ consulta.nervioso_sensibilidad }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Temblor: </strong>
+                                                    {% if consulta.nervioso_temblor %}
+                                                        {{ consulta.nervioso_temblor }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Romberg: </strong>
+                                                    {% if consulta.nervioso_romberg %}
+                                                        {{ consulta.nervioso_romberg }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Taxia: </strong>
+                                                    {% if consulta.nervioso_taxia %}
+                                                        {{ consulta.nervioso_taxia }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Dismetría: </strong>
+                                                    {% if consulta.nervioso_dismetria %}
+                                                        {{ consulta.nervioso_dismetria }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Rigidez de nuca: </strong>
+                                                    {% if consulta.nervioso_rigidez %}
+                                                        {{ consulta.nervioso_rigidez }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Fondo de ojo: </strong>
+                                                    {% if consulta.nervioso_fondo_ojo %}
+                                                        {{ consulta.nervioso_fondo_ojo }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Osteomioarticular</h5>
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p><strong>Columna Vertebral: </strong>
+                                                    {% if consulta.osteomioarticular_columna_vertebral %}
+                                                        {{ consulta.osteomioarticular_columna_vertebral }}{% else %}
+                                                        Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Ejes Óseos: </strong>
+                                                    {% if consulta.osteomioarticular_ejes_oseos %}
+                                                        {{ consulta.osteomioarticular_ejes_oseos }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Articulaciones: </strong>
+                                                    {% if consulta.osteomioarticular_articulaciones %}
+                                                        {{ consulta.osteomioarticular_articulaciones }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p><strong>Miembros: </strong>
+                                                    {% if consulta.osteomioarticular_miembros %}
+                                                        {{ consulta.osteomioarticular_miembros }}{% else %}Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <p><strong>Trofismo muscular: </strong>
+                                                    {% if consulta.osteomioarticular_trofismo_muscular %}
+                                                        {{ consulta.osteomioarticular_trofismo_muscular }}{% else %}
+                                                        Sin
+                                                        Alteración{% endif %} </p>
+                                            </div>
+                                        </div>
+                                        <h5>Complementarios</h5>
+                                        <hr/>
+                                        <div class="form-group">
+                                            <p><strong>Complementarios Entregados: </strong>
+                                                {% if consulta.complementarios_entregados %}
+                                                    {{ consulta.complementarios_entregados }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p><strong>Complementarios Indicados: </strong>
+                                                {% if consulta.complementarios_indicados %}
+                                                    {{ consulta.complementarios_indicados }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+                                        <h5>Diagnostico</h5>
+                                        <hr/>
+                                        <div class="form-group">
+                                            <p><strong>Diagnostico Presuntivo: </strong>
+                                                {% if consulta.diagnostico_presuntivo %}
+                                                    {{ consulta.diagnostico_presuntivo }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p><strong>Plan Terapeutico: </strong>
+                                                {% if consulta.plan_terapeutico %}
+                                                    {{ consulta.plan_terapeutico }}{% else %}Sin
+                                                    Alteración{% endif %} </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{% static 'plugins/parsley/parsley.js' %}"></script>
+    <script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/pages/historias/add_consulta.js' %}"></script>
+    <script>
+        $("#imprimir").click(function () {
+            var element = document.getElementById('print');
+            var opt = {
+                margin: [15, 15],
+                filename: 'pdfFileName.pdf',
+                image: {type: 'jpeg', quality: 0.98},
+                html2canvas: {scale: 2, letterRendering: true},
+                jsPDF: {unit: 'pt', format: 'letter', orientation: 'portrait'},
+                pagebreak: {mode: ['avoid-all', 'css', 'legacy']}
+            };
+
+            html2pdf().set(opt).from(element).save();
+
+        });
+
+    </script>
+{% endblock %}

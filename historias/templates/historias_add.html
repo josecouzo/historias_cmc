@@ -1,0 +1,742 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block style %}
+
+    <link href="{% static 'plugins/select2/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/parsley/parsley.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/bootstrap-datepicker/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-body ">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3>Historia Clínica</h3>
+                            </div>
+                            <hr/>
+                            <!--Stacked Tabs Left-->
+                            <!--===================================================-->
+                            <div class="tab-base tab-stacked-left">
+                                <!--Nav tabs-->
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-1"
+                                           id="error_historia">Historia </a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-2" id="error_interrogatorio">Interrogatorio</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-3">Examen Físico General</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-4">Regional</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-5">Respiratorio</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-6">Cardiovascular</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-8">Abdomen y Obstétrico</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-9">Aparato Genitourinario</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-10">Sistema Nervioso</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-13">Osteomioarticular</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-11">Complementarios</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-12" id="error_diagnostico">Diagnostico</a>
+                                    </li>
+                                </ul>
+
+                                <!--Tabs Content-->
+                                <div class="tab-content">
+                                    <div id="demo-stk-lft-tab-1" class="tab-pane fade active in">
+                                        <form id="formHistoria" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class=" col-lg-8">
+                                                        {{ formHistoria.nombre.errors }}
+                                                        {{ formHistoria.nombre.label }}
+                                                        {{ formHistoria.nombre }}
+                                                    </div>
+                                                    <div class=" col-lg-4">
+                                                        {{ formHistoria.telefono.errors }}
+                                                        {{ formHistoria.telefono.label }}
+                                                        {{ formHistoria.telefono }}
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="row">
+                                                    <div class=" col-lg-3">
+                                                        {{ formHistoria.sexo.errors }}
+                                                        {{ formHistoria.sexo.label }}
+                                                        {{ formHistoria.sexo }}
+                                                    </div>
+                                                    <div class=" col-lg-3">
+                                                        {{ formHistoria.ocupacion.errors }}
+                                                        {{ formHistoria.ocupacion.label }}
+                                                        {{ formHistoria.ocupacion }}
+                                                    </div>
+                                                    <div class="col-lg-3 " >
+                                                        {{ formHistoria.fecha_nacimiento.errors }}
+                                                        {{ formHistoria.fecha_nacimiento.label }}
+                                                        {{ formHistoria.fecha_nacimiento }}
+                                                    </div>
+                                                    <div class=" col-lg-3">
+                                                        {{ formHistoria.estado_civil.errors }}
+                                                        {{ formHistoria.estado_civil.label }}
+                                                        {{ formHistoria.estado_civil }}
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="form-group">
+                                                    {{ formHistoria.antecedentes_familiares.errors }}
+                                                    {{ formHistoria.antecedentes_familiares.label }}
+                                                    {{ formHistoria.antecedentes_familiares }}
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        {{ formHistoria.grupo_factor.errors }}
+                                                        {{ formHistoria.grupo_factor.label }}
+                                                        {{ formHistoria.grupo_factor }}
+                                                    </div>
+                                                    <div>
+                                                        <div class="checkbox">
+                                                            <br/>
+                                                            <!-- Inline alcohol -->
+                                                            {{ formHistoria.fumar.errors }}
+                                                            {{ formHistoria.fumar }}
+                                                            <label for="id_fumar"> {{ formHistoria.fumar.label }}</label>
+                                                            <br/>
+                                                            <!-- Inline alcohol -->
+                                                            {{ formHistoria.alcohol.errors }}
+                                                            {{ formHistoria.alcohol }}
+                                                            <label for="id_alcohol"> {{ formHistoria.alcohol.label }}</label>
+                                                            <!-- Inline drogas -->
+                                                            <br/>
+                                                            {{ formHistoria.drogas.errors }}
+                                                            {{ formHistoria.drogas }}
+                                                            <label for="id_drogas"> {{ formHistoria.drogas.label }}</label>
+                                                            <!-- Inline transfuciones -->
+                                                            <br/>
+                                                            {{ formHistoria.transfuciones.errors }}
+                                                            {{ formHistoria.transfuciones }}
+                                                            <label for="id_transfuciones"> {{ formHistoria.transfuciones.label }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="row">
+                                                        <form id="operaciones">
+                                                            <div class="col-sm-6" id="inp_operacion">
+                                                                Operación
+                                                                <input class="form-control operacion" id="id_operacion"
+                                                                       name="operacion">
+                                                            </div>
+                                                            <div class="col-sm-4" id="inp_anyo">
+                                                                Año
+                                                                <input class="form-control" type="number"
+                                                                       id="id_anyo_operacion"
+                                                                       name="anyo">
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                <br/>
+                                                                <button type="button" class="btn btn-info btn-icon"
+                                                                        id="add_operacion"><i
+                                                                        class="demo-psi-add icon-lg"></i></button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <br/>
+                                                    <div id="div_operaciones">
+
+                                                    </div>
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-2" class="tab-pane fade">
+                                        <form id="formInterrogatorio" class="form-horizontal">
+                                            <div class="form-group">
+                                                {{ formConsulta.motivo_consulta.errors }}
+                                                {{ formConsulta.motivo_consulta.label }}
+                                                {{ formConsulta.motivo_consulta }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.historia_enfermedad_actual.errors }}
+                                                {{ formConsulta.historia_enfermedad_actual.label }}
+                                                {{ formConsulta.historia_enfermedad_actual }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formHistoria.antecedentes_perosnales.errors }}
+                                                {{ formHistoria.antecedentes_perosnales.label }}
+                                                {{ formHistoria.antecedentes_perosnales }}
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-3" class="tab-pane fade">
+                                        <form id="formEFGeneral" class="form-horizontal">
+                                            <h4>Examen Físico</h4>
+                                            <hr/>
+                                            <div class="form-group">
+                                                {{ formConsulta.inpresion_general.errors }}
+                                                {{ formConsulta.inpresion_general.label }}
+                                                {{ formConsulta.inpresion_general }}
+                                            </div>
+                                            <h5>Signos Vitales</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.fc.errors }}
+                                                    {{ formConsulta.fc.label }}
+                                                    {{ formConsulta.fc }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.ta.errors }}
+                                                    {{ formConsulta.ta.label }}
+                                                    {{ formConsulta.ta }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.fr.errors }}
+                                                    {{ formConsulta.fr.label }}
+                                                    {{ formConsulta.fr }}
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    {{ formConsulta.pulso.errors }}
+                                                    {{ formConsulta.pulso.label }}
+                                                    {{ formConsulta.pulso }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.tAuxiliar.errors }}
+                                                    {{ formConsulta.tAuxiliar.label }}
+                                                    {{ formConsulta.tAuxiliar }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.tReactal.errors }}
+                                                    {{ formConsulta.tReactal.label }}
+                                                    {{ formConsulta.tReactal }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.peso_habitual.errors }}
+                                                    {{ formConsulta.peso_habitual.label }}
+                                                    {{ formConsulta.peso_habitual }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.peso_actual.errors }}
+                                                    {{ formConsulta.peso_actual.label }}
+                                                    {{ formConsulta.peso_actual }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.talla.errors }}
+                                                    {{ formConsulta.talla.label }}
+                                                    {{ formConsulta.talla }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.imc.errors }}
+                                                    {{ formConsulta.imc.label }}
+                                                    {{ formConsulta.imc }}
+                                                </div>
+                                            </div>
+                                            <h5>Inspección General</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.habito_constitucional.errors }}
+                                                    {{ formConsulta.habito_constitucional.label }}
+                                                    {{ formConsulta.habito_constitucional }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.marcha.errors }}
+                                                    {{ formConsulta.marcha.label }}
+                                                    {{ formConsulta.marcha }}
+                                                </div>
+                                            </div>
+                                            <h5>Piel, Faneras y Tejido celular subcutaneo</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.lesiones.errors }}
+                                                    {{ formConsulta.lesiones.label }}
+                                                    {{ formConsulta.lesiones }}
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.tejido_celular_subcutaneo.errors }}
+                                                    {{ formConsulta.tejido_celular_subcutaneo.label }}
+                                                    {{ formConsulta.tejido_celular_subcutaneo }}
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-4" class="tab-pane fade">
+                                        <form id="formRegional" class="form-horizontal">
+                                            <h5>Cabeza</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    {{ formConsulta.craneo_cara.errors }}
+                                                    {{ formConsulta.craneo_cara.label }}
+                                                    {{ formConsulta.craneo_cara }}
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    {{ formConsulta.cuero_cabelludo.errors }}
+                                                    {{ formConsulta.cuero_cabelludo.label }}
+                                                    {{ formConsulta.cuero_cabelludo }}
+                                                </div>
+                                            </div>
+                                            <h5>Cuello</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.cuello_inspecion.errors }}
+                                                    {{ formConsulta.cuello_inspecion.label }}
+                                                    {{ formConsulta.cuello_inspecion }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.cuello_palpitacion.errors }}
+                                                    {{ formConsulta.cuello_palpitacion.label }}
+                                                    {{ formConsulta.cuello_palpitacion }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.cuello_percucion.errors }}
+                                                    {{ formConsulta.cuello_percucion.label }}
+                                                    {{ formConsulta.cuello_percucion }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.cuello_auscultacion.errors }}
+                                                    {{ formConsulta.cuello_auscultacion.label }}
+                                                    {{ formConsulta.cuello_auscultacion }}
+                                                </div>
+                                            </div>
+                                            <h5>Torax</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.torax_piel.errors }}
+                                                    {{ formConsulta.torax_piel.label }}
+                                                    {{ formConsulta.torax_piel }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.torax_forma.errors }}
+                                                    {{ formConsulta.torax_forma.label }}
+                                                    {{ formConsulta.torax_forma }}
+                                                </div>
+                                            </div>
+                                            <h5>Mamas</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.mama_forma.errors }}
+                                                    {{ formConsulta.mama_forma.label }}
+                                                    {{ formConsulta.mama_forma }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.mama_tamanyo.errors }}
+                                                    {{ formConsulta.mama_tamanyo.label }}
+                                                    {{ formConsulta.mama_tamanyo }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.mama_simetria.errors }}
+                                                    {{ formConsulta.mama_simetria.label }}
+                                                    {{ formConsulta.mama_simetria }}
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    {{ formConsulta.mama_areolas.errors }}
+                                                    {{ formConsulta.mama_areolas.label }}
+                                                    {{ formConsulta.mama_areolas }}
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.mama_pezones.errors }}
+                                                    {{ formConsulta.mama_pezones.label }}
+                                                    {{ formConsulta.mama_pezones }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-5" class="tab-pane fade">
+                                        <form id="FormRespiratorio" class="form-horizontal">
+                                            <h5>Aparato Respiratorio</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.murmullo_vesicular.errors }}
+                                                    {{ formConsulta.murmullo_vesicular.label }}
+                                                    {{ formConsulta.murmullo_vesicular }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.tiraje.errors }}
+                                                    {{ formConsulta.tiraje.label }}
+                                                    {{ formConsulta.tiraje }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-6" class="tab-pane fade">
+                                        <form id="FormCardiovascular" class="form-horizontal">
+                                            <h5>Aparato Cardiovascular</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.ruidos_cardiovascular.errors }}
+                                                    {{ formConsulta.ruidos_cardiovascular.label }}
+                                                    {{ formConsulta.ruidos_cardiovascular }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.soplos.errors }}
+                                                    {{ formConsulta.soplos.label }}
+                                                    {{ formConsulta.soplos }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-8" class="tab-pane fade">
+                                        <form id="FormAbdomen" class="form-horizontal">
+                                            <h5>Abdomen</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.abdomen_inspecion.errors }}
+                                                    {{ formConsulta.abdomen_inspecion.label }}
+                                                    {{ formConsulta.abdomen_inspecion }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.abdomen_palpacion.errors }}
+                                                    {{ formConsulta.abdomen_palpacion.label }}
+                                                    {{ formConsulta.abdomen_palpacion }}
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.abdomen_percucion.errors }}
+                                                    {{ formConsulta.abdomen_percucion.label }}
+                                                    {{ formConsulta.abdomen_percucion }}
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.abdomen_auscultacion.errors }}
+                                                    {{ formConsulta.abdomen_auscultacion.label }}
+                                                    {{ formConsulta.abdomen_auscultacion }}
+                                                </div>
+                                            </div>
+                                            <h5>Exámen Obstétrico</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.obstetrico_au.errors }}
+                                                    {{ formConsulta.obstetrico_au.label }}
+                                                    {{ formConsulta.obstetrico_au }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.obstetrico_maniobre_leopold.errors }}
+                                                    {{ formConsulta.obstetrico_maniobre_leopold.label }}
+                                                    {{ formConsulta.obstetrico_maniobre_leopold }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-9" class="tab-pane fade">
+                                        <form id="FormGenitourinario" class="form-horizontal">
+
+                                            <h5>Aparato Genitourinario</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-3 text-right">
+                                                    <h4>Puño Percusión</h4>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    {{ formConsulta.genitourinario_percucion_lumbar.errors }}
+                                                    {{ formConsulta.genitourinario_percucion_lumbar.label }}
+                                                    {{ formConsulta.genitourinario_percucion_lumbar }}
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    {{ formConsulta.genitourinario_percucion_derecha.errors }}
+                                                    {{ formConsulta.genitourinario_percucion_derecha.label }}
+                                                    {{ formConsulta.genitourinario_percucion_derecha }}
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    {{ formConsulta.genitourinario_percucion_izquierda.errors }}
+                                                    {{ formConsulta.genitourinario_percucion_izquierda.label }}
+                                                    {{ formConsulta.genitourinario_percucion_izquierda }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.genitourinario_tacto_vaginal.errors }}
+                                                {{ formConsulta.genitourinario_tacto_vaginal.label }}
+                                                {{ formConsulta.genitourinario_tacto_vaginal }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.genitourinario_vulva.errors }}
+                                                {{ formConsulta.genitourinario_vulva.label }}
+                                                {{ formConsulta.genitourinario_vulva }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.genitourinario_flujo.errors }}
+                                                {{ formConsulta.genitourinario_flujo.label }}
+                                                {{ formConsulta.genitourinario_flujo }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.genitourinario_cuello_uterino.errors }}
+                                                {{ formConsulta.genitourinario_cuello_uterino.label }}
+                                                {{ formConsulta.genitourinario_cuello_uterino }}
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-10" class="tab-pane fade">
+                                        <form id="FormSistemaNervioso" class="form-horizontal">
+                                            <h5>Sistema Nervioso</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.nervioso_estado.errors }}
+                                                    {{ formConsulta.nervioso_estado.label }}
+                                                    {{ formConsulta.nervioso_estado }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3 text-right">
+                                                    <h4>Glasgow</h4>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    {{ formConsulta.nervioso_glasgow_ocular.errors }}
+                                                    {{ formConsulta.nervioso_glasgow_ocular.label }}
+                                                    {{ formConsulta.nervioso_glasgow_ocular }}
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    {{ formConsulta.nervioso_glasgow_motor.errors }}
+                                                    {{ formConsulta.nervioso_glasgow_motor.label }}
+                                                    {{ formConsulta.nervioso_glasgow_motor }}
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    {{ formConsulta.nervioso_glasgow_verbal.errors }}
+                                                    {{ formConsulta.nervioso_glasgow_verbal.label }}
+                                                    {{ formConsulta.nervioso_glasgow_verbal }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.nervioso_conducta.errors }}
+                                                    {{ formConsulta.nervioso_conducta.label }}
+                                                    {{ formConsulta.nervioso_conducta }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.nervioso_lenguaje.errors }}
+                                                    {{ formConsulta.nervioso_lenguaje.label }}
+                                                    {{ formConsulta.nervioso_lenguaje }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.nervioso_paredes_craneales.errors }}
+                                                    {{ formConsulta.nervioso_paredes_craneales.label }}
+                                                    {{ formConsulta.nervioso_paredes_craneales }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.nervioso_reflejos_fotomotor.errors }}
+                                                    {{ formConsulta.nervioso_reflejos_fotomotor.label }}
+                                                    {{ formConsulta.nervioso_reflejos_fotomotor }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.nervioso_reflejos_acomodacion.errors }}
+                                                    {{ formConsulta.nervioso_reflejos_acomodacion.label }}
+                                                    {{ formConsulta.nervioso_reflejos_acomodacion }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.nervioso_reflejos_osteotendinosos.errors }}
+                                                    {{ formConsulta.nervioso_reflejos_osteotendinosos.label }}
+                                                    {{ formConsulta.nervioso_reflejos_osteotendinosos }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.nervioso_motricidad.errors }}
+                                                    {{ formConsulta.nervioso_motricidad.label }}
+                                                    {{ formConsulta.nervioso_motricidad }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.nervioso_babinski.errors }}
+                                                    {{ formConsulta.nervioso_babinski.label }}
+                                                    {{ formConsulta.nervioso_babinski }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.nervioso_sensibilidad.errors }}
+                                                    {{ formConsulta.nervioso_sensibilidad.label }}
+                                                    {{ formConsulta.nervioso_sensibilidad }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.nervioso_temblor.errors }}
+                                                    {{ formConsulta.nervioso_temblor.label }}
+                                                    {{ formConsulta.nervioso_temblor }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.nervioso_romberg.errors }}
+                                                    {{ formConsulta.nervioso_romberg.label }}
+                                                    {{ formConsulta.nervioso_romberg }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.nervioso_taxia.errors }}
+                                                    {{ formConsulta.nervioso_taxia.label }}
+                                                    {{ formConsulta.nervioso_taxia }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.nervioso_dismetria.errors }}
+                                                    {{ formConsulta.nervioso_dismetria.label }}
+                                                    {{ formConsulta.nervioso_dismetria }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.nervioso_rigidez.errors }}
+                                                    {{ formConsulta.nervioso_rigidez.label }}
+                                                    {{ formConsulta.nervioso_rigidez }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.nervioso_fondo_ojo.errors }}
+                                                    {{ formConsulta.nervioso_fondo_ojo.label }}
+                                                    {{ formConsulta.nervioso_fondo_ojo }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-13" class="tab-pane fade">
+                                        <form id="FormOsteomioarticular" class="form-horizontal">
+                                            <h5>Osteomioarticular</h5>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.osteomioarticular_columna_vertebral.errors }}
+                                                    {{ formConsulta.osteomioarticular_columna_vertebral.label }}
+                                                    {{ formConsulta.osteomioarticular_columna_vertebral }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.osteomioarticular_ejes_oseos.errors }}
+                                                    {{ formConsulta.osteomioarticular_ejes_oseos.label }}
+                                                    {{ formConsulta.osteomioarticular_ejes_oseos }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.osteomioarticular_articulaciones.errors }}
+                                                    {{ formConsulta.osteomioarticular_articulaciones.label }}
+                                                    {{ formConsulta.osteomioarticular_articulaciones }}
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    {{ formConsulta.osteomioarticular_miembros.errors }}
+                                                    {{ formConsulta.osteomioarticular_miembros.label }}
+                                                    {{ formConsulta.osteomioarticular_miembros }}
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    {{ formConsulta.osteomioarticular_trofismo_muscular.errors }}
+                                                    {{ formConsulta.osteomioarticular_trofismo_muscular.label }}
+                                                    {{ formConsulta.osteomioarticular_trofismo_muscular }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div id="demo-stk-lft-tab-11" class="tab-pane fade">
+                                        <form id="FormComplementarios" class="form-horizontal">
+                                            <h5>Complementarios</h5>
+                                            <hr/>
+                                            <div class="form-group">
+                                                {{ formConsulta.complementarios_entregados.errors }}
+                                                {{ formConsulta.complementarios_entregados.label }}
+                                                {{ formConsulta.complementarios_entregados }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.complementarios_indicados.errors }}
+                                                {{ formConsulta.complementarios_indicados.label }}
+                                                {{ formConsulta.complementarios_indicados }}
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-12" class="tab-pane fade">
+                                        <form id="FormDiagnostico" class="form-horizontal">
+                                            <h5>Diagnostico</h5>
+                                            <hr/>
+                                            <div class="form-group">
+                                                {{ formConsulta.diagnostico_presuntivo.errors }}
+                                                {{ formConsulta.diagnostico_presuntivo.label }}
+                                                {{ formConsulta.diagnostico_presuntivo }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ formConsulta.plan_terapeutico.errors }}
+                                                {{ formConsulta.plan_terapeutico.label }}
+                                                {{ formConsulta.plan_terapeutico }}
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="panel-footer text-right">
+                                <button class="btn btn-success" id="add_historia" type="button">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{% static 'plugins/parsley/parsley.js' %}"></script>
+    <script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/pages/historias/add_historia.js' %}"></script>
+    {#    <script src="{% static 'js/pages/historias/datatable.js' %}"></script>#}
+{% endblock %}
