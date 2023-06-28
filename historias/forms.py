@@ -16,7 +16,7 @@ class HistoriaForm(forms.Form):
                              widget=forms.TextInput(attrs={'class': 'form-control historia'}))
     sexo = forms.ChoiceField(label="Sexo", choices=gen, widget=forms.Select(
         attrs={'class': 'form-control demo_select2 historia '}))
-    ocupacion = forms.CharField(label="Ocupación", max_length=300,
+    ocupacion = forms.CharField(label="Ocupación", max_length=300, required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control historia'}))
     telefono = forms.CharField(label="Teléfono", max_length=300,
                                 widget=forms.TextInput(attrs={'class': 'form-control historia'}))
@@ -42,7 +42,7 @@ class HistoriaForm(forms.Form):
         attrs={'class': 'magic-checkbox historia'}))
     transfuciones = forms.BooleanField(label="Transfuciones", required=False, widget=forms.CheckboxInput(
         attrs={'class': 'magic-checkbox historia'}))
-    grupo_factor = forms.CharField(label="Grupo factor", max_length=50,
+    grupo_factor = forms.CharField(label="Grupo factor", max_length=50, required=False,
                                    widget=forms.TextInput(attrs={'class': 'form-control historia'}))
 
 class ConsultaForm(forms.Form):
@@ -89,7 +89,7 @@ class ConsultaForm(forms.Form):
                             widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     tAuxiliar = forms.CharField(label="T°Auxiliar", max_length=300,
                                 widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
-    tReactal = forms.CharField(label="T°Reactal", max_length=300,
+    tReactal = forms.CharField(label="T°Rectal", max_length=300,
                                widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     peso_habitual = forms.CharField(label="Peso Habitual", max_length=300,
                                     widget=forms.TextInput(attrs={'class': 'form-control consulta'}))

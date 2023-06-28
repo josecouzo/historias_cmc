@@ -8,11 +8,9 @@ $(document).ready(function () {
         "processing": true,
         "columns": [
             {
-                "data": null,
-                "className": "details-control",
-                "orderable": false,
-                "searchable": false,
-                "defaultContent": buttonPassengers,
+                "data": function (data, type, row) {
+                    return historiasButton(data);
+                }
             },
             {"data": "id"},
             {
@@ -37,7 +35,8 @@ $(document).ready(function () {
         }
     });
 
-    $("#Table tbody").on('click', 'td.details-control', function () {
+    $("#Table tbody").on('click', '.detalles_cconsulta', function () {
+        console.log("aquii");
         let tr = (this).closest('tr');
         let row = Table.row(tr);
         let data = row.data();
@@ -53,6 +52,16 @@ $(document).ready(function () {
 });
 const formatClient = (data) => {
     return `<div>${data.nombre}</div>`;
+};
+
+function historiasButton (data)  {
+    return `
+<div class="text-center"><button class="btn btn-info detalles_cconsulta" data-toggle="collapse" style="background-color: transparent; border-color: transparent" 
+                title="Mostrar Consultas">
+                    <i class="fa fa-folder-open-o text-info"><span class="label label-info pull-right"> ${data.consultas.length}</span></i>
+                    
+             </button></div>
+`;
 };
 
 

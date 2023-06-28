@@ -1,7 +1,7 @@
 import json
 import os
 from audioop import reverse
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from random import randrange
 
 from django.conf import settings
@@ -24,6 +24,7 @@ from django.core.files.storage import FileSystemStorage
 @login_required()
 def render_index(request):
     return render(request, 'index.html')
+
 
 @login_required()
 def render_historias(request):
@@ -320,7 +321,7 @@ def historias_ajax(request):
             "grupo_factor": historia.grupo_factor,
             "estado_civil": historia.estado_civil,
             "ocupacion": historia.ocupacion,
-            "edad":( relativedelta(datetime.now(), historia.fecha_nacimiento).years),
+            "edad": (relativedelta(datetime.now(), historia.fecha_nacimiento).years),
             "operaciones": [p.to_dic for p in historia.operaciones.all()],
             "consultas": [p.to_dic for p in historia.conusltas.all()],
             "date_of_creation": historia.date_of_creation.strftime('%d/%m/%Y %H:%M:%S'),
@@ -352,23 +353,25 @@ def hoja_cargo_ajax(request):
     if id_historia:
         consultas_ = consultas_.filter(id=id_historia)
 
+    print(request.GET)
+    print("----------------888888----------")
     #  Nombre
     nombre = request.GET.get('columns[1][search][value]')
     if nombre:
-        consultas_ = consultas_.select_related('conusltas').filter(nombre__icontains=nombre)
+        consultas_ = consultas_.filter(historia__nombre__icontains=nombre)
 
-    #  Nombre
-    telefono = request.GET.get('columns[3][search][value]')
+    #  Telefono
+    telefono = request.GET.get('columns[4][search][value]')
     if telefono:
-        consultas_ = consultas_.filter(telefono__icontains=telefono)
+        consultas_ = consultas_.filter(historia__telefono__icontains=telefono)
 
-    totalFilter = consultas_.count()
-
+    print(request.GET.get('columns[7][search][value]'))
+    print("Hola")
     #  Fecha
-    rango_fecha = request.GET.get('columns[4][search][value]')
-    if telefono:
-        rango_fecha.split("|")
-        consultas_ = consultas_.filter(created_at__range=(rango_fecha[0], rango_fecha[1]))
+    rango_fecha = request.GET.get('columns[7][search][value]')
+    if rango_fecha:
+        fechasplit = rango_fecha.split("|")
+        consultas_ = consultas_.filter(date_of_creation__range=(fechasplit[0], fechasplit[1]))
 
     totalFilter = consultas_.count()
 
@@ -494,6 +497,7 @@ def print_consulta(request, id_):
         "fecha_historia": consulta.historia.date_of_creation.strftime('%d/%m/%Y %H:%M'),
     }
     return render(request, "consulta_print.html", {"ctx": ctx, "consulta": consulta}, )
+
 
 @login_required()
 def upload_complementario(request, id_):
