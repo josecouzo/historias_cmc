@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.conf import settings
+import boto3
+from django import template
 # Create your models here.
 from django.db.models import ImageField
 
@@ -187,7 +190,7 @@ class ConsultaModel(models.Model):
 class ComplementariosModel(models.Model):
     nombre = models.CharField(max_length=50)
     nota = models.CharField(max_length=50)
-    complementario = models.CharField(max_length=50)
+    complementario = models.FileField(upload_to='complementarios/')
     consulta = models.ForeignKey(ConsultaModel, on_delete=models.CASCADE, related_name="complementarios")
     date_of_creation = models.DateTimeField(auto_now_add=True)
     date_of_update = models.DateTimeField(auto_now=True)
@@ -198,14 +201,10 @@ class ComplementariosModel(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-    # @property
-    # def to_dic(self):
-    #     return {
-    #         "id": self.id,
-    #         "tipo": self.tipo,
-    #         "anyo": self.anyo,
-    #         "historia": self.historia.id,
-    #     }
+
+
+
+
 
 
 

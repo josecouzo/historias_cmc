@@ -1,6 +1,7 @@
 from django import forms
 
 
+
 class HistoriaForm(forms.Form):
     gen = [
         ("M", "Masculino"),
@@ -254,3 +255,4 @@ class ComplementarioForm(forms.Form):
                                                   attrs={'class': 'form-control', 'rows': '6',
                                                          'style': "height:100%;"}))
     files_complementarios = forms.FileField(label="Archivos Complementarios")
+

@@ -2,10 +2,13 @@ let Table;
 $(document).ready(function () {
     Table = $('#Table').DataTable({
         "ajax": "/historias/hoja-cargo-ajax/",
-        "dom": 'lfrtip',
+        "dom": 'Blfrtip',
         "serverSide": true,
         "paging": true,
         "processing": true,
+        buttons: [
+            { extend: 'pdfHtml5', className: 'btn btn-primary btn-icon fa fa-file-pdf-o', text:" Exportar PDF" },
+        ],
         "columns": [
             {"data": "count"},
             {"data": "id"},
@@ -87,3 +90,13 @@ function filterColumn(i) {
         $('#col' + i + '_filter').val(),
         $('#col' + i + '_smart').prop('checked')).draw();
 }
+
+$('.hide_column').on('click', function (e) {
+    e.preventDefault();
+
+    // Get the column API object
+    var column = Table.column($(this).attr('data-column'));
+
+    // Toggle the visibility
+    column.visible(!column.visible());
+});

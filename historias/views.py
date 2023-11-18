@@ -4,6 +4,7 @@ from audioop import reverse
 from datetime import datetime, date, timedelta
 from random import randrange
 
+import boto3
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -498,29 +499,68 @@ def print_consulta(request, id_):
     }
     return render(request, "consulta_print.html", {"ctx": ctx, "consulta": consulta}, )
 
+#
+# @login_required()
+# def upload_complementario(request, id_):
+#     complementarios = ComplementariosModel.objects.filter(consulta=id_).order_by('id').all()
+#
+#     if request.method == 'POST' and request.FILES:
+#         myfile = request.FILES['files_complementarios']
+#         datos = request.POST
+#         fs = FileSystemStorage()
+#         numero = randrange(10000000000, 99999999999)
+#         name = f"{numero}{myfile.name}"
+#         filename = fs.save(name, myfile)
+#         uploated_file_url = fs.url(filename)
+#         complementatio = ComplementariosModel()
+#         complementatio.nombre = datos["nombre"]
+#         complementatio.nota = datos["nota"]
+#         complementatio.consulta_id = id_
+#         complementatio.complementario = filename
+#         complementatio.save()
+#         formComplementario = ComplementarioForm()
+#         return redirect("historias")
+#     else:
+#         formComplementario = ComplementarioForm
+#         return render(request, "upload_complementario.html", {
+#             'formComplementario': formComplementario, 'complementarios': complementarios
+#         })
 
 @login_required()
 def upload_complementario(request, id_):
     complementarios = ComplementariosModel.objects.filter(consulta=id_).order_by('id').all()
+    s3config = {
+        "region_name": settings.OBJECT_STORAGE_REGION,
+        "endpoint_url": "https://cmc.nyc3.digitaloceanspaces.com".format(settings.OBJECT_STORAGE_REGION),
+        "aws_access_key_id": settings.AWS_ACCESS_KEY_ID,
+        "aws_secret_access_key": settings.AWS_SECRET_ACCESS_KEY}
+    # Genera la URL del archivo en S3
+    s3_url = f"https://{settings.OBJECT_STORAGE_REGION}.digitaloceanspaces.com/complementarios/"
 
     if request.method == 'POST' and request.FILES:
         myfile = request.FILES['files_complementarios']
         datos = request.POST
-        fs = FileSystemStorage()
         numero = randrange(10000000000, 99999999999)
         name = f"{numero}{myfile.name}"
-        filename = fs.save(name, myfile)
-        uploated_file_url = fs.url(filename)
+        key = str(name)
+        s3resource = boto3.resource("s3", **s3config)
+        bucket = s3resource.Bucket("complementarios")
+        bucket.upload_fileobj(myfile, key, ExtraArgs={'ACL': 'public-read'})
+
+        file_name = myfile.name
+        # uploated_file_url = fs.url(filename)
         complementatio = ComplementariosModel()
         complementatio.nombre = datos["nombre"]
         complementatio.nota = datos["nota"]
         complementatio.consulta_id = id_
-        complementatio.complementario = filename
+        complementatio.complementario = name
         complementatio.save()
         formComplementario = ComplementarioForm()
         return redirect("historias")
     else:
         formComplementario = ComplementarioForm
         return render(request, "upload_complementario.html", {
-            'formComplementario': formComplementario, 'complementarios': complementarios
+            'formComplementario': formComplementario, 'complementarios': complementarios, 's3_url': s3_url
         })
+
+

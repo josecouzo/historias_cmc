@@ -142,6 +142,12 @@ MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'DO0088HHEQMVFJQ9G4LC'
+AWS_SECRET_ACCESS_KEY = 'xAuxmEkEvaKmi1Tk77rPUrXwj03Qc4+VYaJF1tElg34'
+AWS_STORAGE_BUCKET_NAME = 'cmc'
+OBJECT_STORAGE_REGION = 'nyc3'
+AWS_DEFAULT_ACL = 'public-read'
 
 # login
 LOGIN_URL = 'login'
