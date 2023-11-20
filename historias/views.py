@@ -29,6 +29,7 @@ def render_index(request):
 
 @login_required()
 def render_historias(request):
+
     return render(request, 'historias_index.html')
 
 
