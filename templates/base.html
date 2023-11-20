@@ -287,25 +287,24 @@
                             <!--================================-->
                             <div id="mainnav-profile" class="mainnav-profile">
                                 <div class="profile-wrap text-center">
-                                    <h2>hola</h2>
-{#                                    <div class="pad-btm">#}
-{#                                        {% if   "Femenino" in request.user.userdata.sexo %}#}
-{#                                            <img class="img-circle img-md" src="{% static 'img/profile-photos/6.png' %}"#}
-{#                                             alt="Profile Picture">#}
-{#                                        {% else %}#}
-{#                                            <img class="img-circle img-md" src="{% static 'img/profile-photos/1.png' %}"#}
-{#                                             alt="Profile Picture">#}
-{#                                        {% endif %}#}
-{##}
-{#                                    </div>#}
-{#                                    <a href="#profile-nav" class="box-block" data-toggle="collapse"#}
-{#                                       aria-expanded="false">#}
-{#                                            <span class="pull-right dropdown-toggle">#}
-{#                                                <i class="dropdown-caret"></i>#}
-{#                                            </span>#}
-{#                                        <p class="mnp-name">{{ request.user.first_name }} {{ request.user.last_name }}</p>#}
-{#                                        <span class="mnp-desc">{{ request.user.userdata.especialiad }}</span>#}
-{#                                    </a>#}
+                                    <div class="pad-btm">
+                                        {% if   "Femenino" in request.user.userdata.sexo %}
+                                            <img class="img-circle img-md" src="{% static 'img/profile-photos/6.png' %}"
+                                             alt="Profile Picture">
+                                        {% else %}
+                                            <img class="img-circle img-md" src="{% static 'img/profile-photos/1.png' %}"
+                                             alt="Profile Picture">
+                                        {% endif %}
+
+                                    </div>
+                                    <a href="#profile-nav" class="box-block" data-toggle="collapse"
+                                       aria-expanded="false">
+                                            <span class="pull-right dropdown-toggle">
+                                                <i class="dropdown-caret"></i>
+                                            </span>
+                                        <p class="mnp-name">{{ request.user.first_name }} {{ request.user.last_name }}</p>
+                                        <span class="mnp-desc">{{ request.user.userdata.especialiad }}</span>
+                                    </a>
                                 </div>
                                 <div id="profile-nav" class="collapse list-group bg-trans">
                                     <a href="#" class="list-group-item">
