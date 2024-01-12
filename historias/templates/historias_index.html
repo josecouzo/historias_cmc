@@ -1,27 +1,51 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Página HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
 
-{% load static %}
-{#{% block style %}#}
-{#    <link href="{% static 'plugins/datatables/media/css/dataTables.bootstrap.css' %}" rel="stylesheet">#}
-{#    <link href="{% static 'plugins/datatables/extensions/Responsive/css/responsive.dataTables.min.css' %}"#}
-{#          rel="stylesheet">#}
-{#{% endblock %}#}
-{# {% block pageTitle %}Historias CLínicas{% endblock %}#}
-{# {% block titulo %}Historias CLínicas{% endblock %}#}
-{% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-body ">
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
 
+        section {
+            margin: 20px 0;
+        }
 
-            </div>
-        </div>
-    </div>
-{% endblock %}
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
 
-{#{% block javascripts %}#}
-{#    <script src="{% static 'plugins/datatables/media/js/jquery.dataTables.js' %}"></script>#}
-{#    <script src="{% static 'plugins/datatables/media/js/dataTables.bootstrap.js' %}"></script>#}
-{#    <script src="{% static 'plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js' %}"></script>#}
-{#    <script src="{% static 'js/pages/historias/datatable.js' %}"></script>#}
-{#{% endblock %}#}
+    <header>
+        <h1>Mi Página HTML</h1>
+    </header>
+
+    <section>
+        <h2>Contenido Principal</h2>
+        <p>Bienvenido a mi página HTML de ejemplo.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 - Todos los derechos reservados</p>
+    </footer>
+
+</body>
+</html>
