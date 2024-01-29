@@ -19,7 +19,7 @@ class HistoriaForm(forms.Form):
         attrs={'class': 'form-control demo_select2 historia '}))
     ocupacion = forms.CharField(label="Ocupación", max_length=300, required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control historia'}))
-    telefono = forms.CharField(label="Teléfono", max_length=300,
+    telefono = forms.CharField(label="Teléfono", max_length=300, required=False,
                                 widget=forms.TextInput(attrs={'class': 'form-control historia'}))
     fecha_nacimiento = forms.DateField(label="Fecha de Nacimiento",
                                     widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control historia'}))
@@ -29,11 +29,15 @@ class HistoriaForm(forms.Form):
         attrs={'class': 'form-control select2 historia '}))
     antecedentes_familiares = forms.CharField(label="Antecedentes Familiares", required=False, max_length=300,
                                               widget=forms.Textarea(
-                                                  attrs={'class': 'form-control', 'rows': '6',
+                                                  attrs={'class': 'form-control', 'rows': '4',
+                                                         'style': "height:100%;"}))
+    alergias = forms.CharField(label="Alergias", required=False, max_length=300,
+                                              widget=forms.Textarea(
+                                                  attrs={'class': 'form-control', 'rows': '4',
                                                          'style': "height:100%;"}))
     antecedentes_perosnales = forms.CharField(label="Antecedentes Personales", required=False, max_length=300,
                                               widget=forms.Textarea(
-                                                  attrs={'class': 'form-control', 'rows': '6',
+                                                  attrs={'class': 'form-control', 'rows': '4',
                                                          'style': "height:100%;"}))
     fumar = forms.BooleanField(label="Fuma", required=False, widget=forms.CheckboxInput(
         attrs={'class': 'magic-checkbox historia'}))
@@ -59,9 +63,8 @@ class ConsultaForm(forms.Form):
         ("No Infiltrado", "No Infiltrado"),
     ]
     murmullo_ves = [
-        ("", "Selecionar"),
+        ("conservado", "conservado"),
         ("Rudo", "Rudo"),
-        ("Concervado", "Concervado"),
         ("Disminuido", "Disminuido"),
         ("Abolido", "Abolido"),
     ]
@@ -92,8 +95,8 @@ class ConsultaForm(forms.Form):
                                 widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     tReactal = forms.CharField(label="T°Rectal", max_length=300,
                                widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
-    peso_habitual = forms.CharField(label="Peso Habitual", max_length=300,
-                                    widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    # peso_habitual = forms.CharField(label="Peso Habitual", max_length=300,
+    #                                 widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     peso_actual = forms.CharField(label="Peso Actual", max_length=300,
                                   widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     talla = forms.CharField(label="Talla", max_length=300,
@@ -137,6 +140,8 @@ class ConsultaForm(forms.Form):
         attrs={'class': 'form-control demo_select2 consulta '}))
     tiraje = forms.CharField(label="Tiraje", max_length=300,
                              widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    estertores = forms.CharField(label="Estertores", max_length=300,
+                             widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     ruidos_cardiovascular = forms.ChoiceField(label="Ruidos Cardiacos", choices=ruidos_card, widget=forms.Select(
         attrs={'class': 'form-control demo_select2 consulta '}))
     soplos = forms.CharField(label="Soplos", max_length=300,
@@ -155,13 +160,16 @@ class ConsultaForm(forms.Form):
     obstetrico_maniobre_leopold = forms.CharField(label="Maniobre de Leopold", max_length=300,
                                                   widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     # genitourinario
-    genitourinario_percucion_lumbar = forms.CharField(label="Lumbar", max_length=300,
-                                                      widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    # genitourinario_percucion_lumbar = forms.CharField(label="Lumbar", max_length=300,
+    #                                                   widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+
     genitourinario_percucion_derecha = forms.CharField(label="Derecha", max_length=300,
                                                        widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     genitourinario_percucion_izquierda = forms.CharField(label="Izquierda", max_length=300, widget=forms.TextInput(
         attrs={'class': 'form-control consulta'}))
     genitourinario_tacto_vaginal = forms.CharField(label="Tacto Vaginal", max_length=300,
+                                                   widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    genitourinario_puntos_pielos = forms.CharField(label="Puntos Pielorenoureterales", max_length=300,
                                                    widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     genitourinario_vulva = forms.CharField(label="Vulva", max_length=300,
                                            widget=forms.TextInput(attrs={'class': 'form-control consulta'}))

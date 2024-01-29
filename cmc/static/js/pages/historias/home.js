@@ -15,10 +15,16 @@ $(document).ready(function () {
             {"data": "nombre"},
             {"data": "sexo"},
             {"data": "telefono"},
+            {
+                "data": function (data, type, row) {
+                    return formatProcederes(data);
+                }
+            },
             {"data": "motivo_consulta"},
             {"data": "date_of_creation"},
             {
                 "data": function (data, type, row) {
+                    // console.log(data);
                     return formatAcciones(data);
                 }
             },
@@ -64,6 +70,17 @@ function formatAcciones(data) {
             <a href="/historias/upload-complementario/${data.id}">
                 <button class="btn btn-info btn-xs btn-icon " title="Complementarios"><i class="fa fa-file icon-lg"></i></button>
             </a>`;
+}
+
+
+function formatProcederes(data) {
+    let lista_procederes=``;
+    $.each(data.procederes, function(index, value) {
+        // The 'index' is the current index in the array, and 'value' is the value at that index
+        // console.log("Index: " + index + ", Value: " + value);
+        lista_procederes +=`<p>${value.proceder}: ${value.cantidad}</p>`;
+      });
+    return lista_procederes;
 }
 
 

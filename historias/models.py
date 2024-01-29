@@ -24,8 +24,9 @@ class HistoriaModel(models.Model):
     ocupacion = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField(null=False)
     estado_civil = models.CharField(max_length=50, null=False, choices=e_civil)
-    antecedentes_familiares = models.CharField(max_length=500)
-    antecedentes_perosnales = models.CharField(max_length=500)
+    alergias = models.CharField(max_length=500, null=True)
+    antecedentes_familiares = models.CharField(max_length=500, null=True)
+    antecedentes_perosnales = models.CharField(max_length=500, null=True)
     fumar = models.BooleanField(default=False)
     alcohol = models.BooleanField(default=False)
     drogas = models.BooleanField(default=False)
@@ -120,6 +121,7 @@ class ConsultaModel(models.Model):
     mama_pezones = models.CharField(max_length=50, null=True)
     murmullo_vesicular = models.CharField(max_length=50, null=True, choices=murmullo_ves)
     tiraje = models.CharField(max_length=50, null=True)
+    estertores = models.CharField(max_length=50, null=True)
     ruidos_cardiovascular = models.CharField(max_length=50, null=True, choices=ruidos_card)
     soplos = models.CharField(max_length=50, null=True)
     abdomen_inspecion = models.CharField(max_length=150, null=True)
@@ -128,10 +130,11 @@ class ConsultaModel(models.Model):
     abdomen_auscultacion = models.CharField(max_length=150, null=True)
     obstetrico_maniobre_leopold = models.CharField(max_length=50, null=True)
     obstetrico_au = models.CharField(max_length=50, null=True)
-    genitourinario_percucion_lumbar = models.CharField(max_length=50, null=True)
+    # genitourinario_percucion_lumbar = models.CharField(max_length=50, null=True)
     genitourinario_percucion_derecha = models.CharField(max_length=50, null=True)
     genitourinario_percucion_izquierda = models.CharField(max_length=50, null=True)
     genitourinario_tacto_vaginal = models.CharField(max_length=150, null=True)
+    genitourinario_puntos_pielos = models.CharField(max_length=150, null=True)
     genitourinario_vulva = models.CharField(max_length=150, null=True)
     genitourinario_flujo = models.CharField(max_length=150, null=True)
     genitourinario_cuello_uterino = models.CharField(max_length=150, null=True)
@@ -201,6 +204,51 @@ class ComplementariosModel(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
+
+class ProcederesModel(models.Model):
+    nombre = models.CharField(max_length=50)
+    precio = models.FloatField()
+    date_of_creation = models.DateTimeField(auto_now_add=True)
+    date_of_update = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.nombre} | {self.precio}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    @property
+    def to_dic(self):
+        return {
+            "id": self.id,
+            "proceder": self.nombre,
+            "precio": self.precio,
+        }
+
+
+class ProcederesRealizadosModel(models.Model):
+    proceder = models.ForeignKey(ProcederesModel, on_delete=models.CASCADE, related_name="proceder")
+    consulta = models.ForeignKey(ConsultaModel, on_delete=models.CASCADE, related_name="consulta")
+    cantidad = models.IntegerField()
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="procederes",
+                              verbose_name="propietario")
+    date_of_creation = models.DateTimeField(auto_now_add=True)
+    date_of_update = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.proceder.nombre} | {self.cantidad}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    @property
+    def to_dic(self):
+        return {
+            "id": self.id,
+            "proceder": self.proceder.nombre,
+            "consulta": self.consulta.id,
+            "cantidad": self.cantidad
+        }
 
 
 

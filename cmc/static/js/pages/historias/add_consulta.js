@@ -59,6 +59,12 @@ function insertar() {
             consulta[field.name] = field.value;
         });
 
+        var FormObstetrico = $("#FormObstetrico").serializeArray();
+        var Obstetrico = new Object();
+        $.each(FormObstetrico, function (i, field) {
+            consulta[field.name] = field.value;
+        });
+
         var FormGenitourinario = $("#FormGenitourinario").serializeArray();
         var Genitourinario = new Object();
         $.each(FormGenitourinario, function (i, field) {
@@ -90,6 +96,7 @@ function insertar() {
         });
         var ConsultaGeneral = {
             'consulta': consulta,
+            'ListaProcederes': ListaProcederes,
         };
         fetch("/historias/add-consulta-ajax/", {
             method: 'POST',
@@ -118,3 +125,82 @@ $('#add_historia').on('click', function () {
     insertar();
 });
 
+$('#add_proceder').on('click', function () {
+    let valid = true;
+    if ($("#id_proceder").val() == "") {
+        $("#inp_proceder").addClass('has-error');
+        valid = false;
+    }
+    if ($("#id_cant_proceder").val() == "") {
+        $("#inp_cant_proceder").addClass('has-error');
+        valid = false;
+    }
+    if (valid) {
+        let proceder = {
+            proceder: $("#id_proceder").val(),
+            cant: $("#id_cant_proceder").val(),
+        }
+        ListaProcederes.push(proceder);
+        proceder['id'] = ListaProcederes.length;
+        var item = `<div class="panel panel-dark" id="item-${ListaProcederes.length}">
+                    <div class="panel-heading">
+                        <div class="panel-control">
+                            <button class="btn btn-danger" type="button" onclick="removeItemProceder(${ListaProcederes.length})"><i
+                                    class="icon demo-pli-trash"></i></button>
+                        </div>
+                        <h3 class="panel-title">${$("#id_cant_proceder").val()} -${$("#id_proceder option:selected").text()}</h3>
+                    </div>
+                </div>`;
+        $("#div_proceder").append(item);
+        $("#id_proceder").val("");
+        $("#id_cant_proceder").val("");
+    }
+});
+
+function removeItemProceder(i) {
+    ListaProcederes = ListaProcederes.filter(function (obj) {
+        if (obj['id'] === i) {
+            return obj['id'] !== i;
+        } else {
+            return true;
+        }
+    });
+    $('#item-' + i).remove();
+}
+
+
+$('#id_peso_actual').on( "keyup", function() {
+    // Obtener los valores de altura y peso
+    var altura = parseFloat($("#id_talla").val());
+    var peso = parseFloat($("#id_peso_actual").val());
+    // console.log("entro");
+
+    // Verificar si los valores son numéricos
+    if (!isNaN(altura) && !isNaN(peso)) {
+
+        // Calcular el índice de masa corporal (IMC)
+        var imc = peso / ((altura / 100) * (altura / 100));
+
+        // Mostrar el resultado
+        $("#id_imc").val(imc.toFixed(2));
+    }
+
+});
+
+$('#id_talla').on( "keyup", function() {
+    // Obtener los valores de altura y peso
+    var altura = parseFloat($("#id_talla").val());
+    var peso = parseFloat($("#id_peso_actual").val());
+    // console.log("entro");
+
+    // Verificar si los valores son numéricos
+    if (!isNaN(altura) && !isNaN(peso)) {
+
+        // Calcular el índice de masa corporal (IMC)
+        var imc = peso / ((altura / 100) * (altura / 100));
+
+        // Mostrar el resultado
+        $("#id_imc").val(imc.toFixed(2));
+    }
+
+});

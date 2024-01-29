@@ -17,36 +17,39 @@ from django.template.loader import render_to_string
 # from weasyprint.text.fonts import FontConfiguration
 
 from .forms import HistoriaForm, ConsultaForm, ComplementarioForm
-from .models import HistoriaModel, ConsultaModel, OperacionesModel, ComplementariosModel
+from .models import HistoriaModel, ConsultaModel, OperacionesModel, ComplementariosModel, ProcederesModel, \
+    ProcederesRealizadosModel
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 
 
-@login_required()
+@login_required(login_url='login')
 def render_index(request):
     return render(request, 'index.html')
 
 
-@login_required()
+@login_required(login_url='login')
 def render_historias(request):
 
     return render(request, 'historias_index.html')
 
 
-@login_required()
+@login_required(login_url='login')
 def render_PDF(request):
     return render(request, 'PDF_historia.html')
 
 
-@login_required()
+@login_required(login_url='login')
 def render_add_historia(request):
+    listaProcederes = ProcederesModel.objects.all()
     formHistoria = HistoriaForm
     formConsulta = ConsultaForm
-    return render(request, 'historias_add.html', {'formHistoria': formHistoria, 'formConsulta': formConsulta})
+    return render(request, 'historias_add.html', {'formHistoria': formHistoria, 'formConsulta': formConsulta, 'listaProcederes': listaProcederes})
 
 
-@login_required()
+@login_required(login_url='login')
 def render_add_consulta(request, id_historia):
+    listaProcederes = ProcederesModel.objects.all()
     historia = HistoriaModel.objects.get(pk=id_historia)
     listaOperaciones = OperacionesModel.objects.filter(historia=id_historia).order_by('anyo').all()
     edada = relativedelta(datetime.now(), historia.fecha_nacimiento)
@@ -54,10 +57,10 @@ def render_add_consulta(request, id_historia):
     formConsulta = ConsultaForm
     return render(request, 'consulta_add.html',
                   {'edada': edada.years, 'formHistoria': formHistoria, 'formConsulta': formConsulta,
-                   'historia': historia, 'listaOperaciones': listaOperaciones})
+                   'historia': historia, 'listaOperaciones': listaOperaciones, 'listaProcederes': listaProcederes})
 
 
-@login_required()
+@login_required(login_url='login')
 def ajax_add_historia(request):
     data = json.loads(request.body.decode('utf-8'))
     new_historia = HistoriaModel()
@@ -67,8 +70,9 @@ def ajax_add_historia(request):
     new_historia.telefono = data['historia']['telefono']
     new_historia.fecha_nacimiento = data['historia']['fecha_nacimiento']
     new_historia.estado_civil = data['historia']['estado_civil']
+    new_historia.alergias = data['historia']['alergias']
     new_historia.antecedentes_familiares = data['historia']['antecedentes_familiares']
-    new_historia.antecedentes_perosnales = data['consulta']['antecedentes_perosnales']
+    new_historia.antecedentes_perosnales = data['historia']['antecedentes_perosnales']
     new_historia.fumar = data['historia']['fumar']
     new_historia.alcohol = data['historia']['alcohol']
     new_historia.drogas = data['historia']['drogas']
@@ -92,7 +96,7 @@ def ajax_add_historia(request):
     new_consulta.pulso = data['consulta']['pulso']
     new_consulta.tAuxiliar = data['consulta']['tAuxiliar']
     new_consulta.tReactal = data['consulta']['tReactal']
-    new_consulta.peso_habitual = data['consulta']['peso_habitual']
+    # new_consulta.peso_habitual = data['consulta']['peso_habitual']
     new_consulta.peso_actual = data['consulta']['peso_actual']
     new_consulta.talla = data['consulta']['talla']
     new_consulta.imc = data['consulta']['imc']
@@ -116,6 +120,7 @@ def ajax_add_historia(request):
     new_consulta.mama_pezones = data['consulta']['mama_pezones']
     new_consulta.murmullo_vesicular = data['consulta']['murmullo_vesicular']
     new_consulta.tiraje = data['consulta']['tiraje']
+    new_consulta.estertores = data['consulta']['estertores']
     new_consulta.ruidos_cardiovascular = data['consulta']['ruidos_cardiovascular']
     new_consulta.soplos = data['consulta']['soplos']
     new_consulta.abdomen_inspecion = data['consulta']['abdomen_inspecion']
@@ -124,7 +129,8 @@ def ajax_add_historia(request):
     new_consulta.abdomen_auscultacion = data['consulta']['abdomen_auscultacion']
     new_consulta.obstetrico_maniobre_leopold = data['consulta']['obstetrico_maniobre_leopold']
     new_consulta.obstetrico_au = data['consulta']['obstetrico_au']
-    new_consulta.genitourinario_percucion_lumbar = data['consulta']['genitourinario_percucion_lumbar']
+    # new_consulta.genitourinario_percucion_lumbar = data['consulta']['genitourinario_percucion_lumbar']
+    new_consulta.genitourinario_puntos_pielos = data['consulta']['genitourinario_puntos_pielos']
     new_consulta.genitourinario_percucion_derecha = data['consulta']['genitourinario_percucion_derecha']
     new_consulta.genitourinario_percucion_izquierda = data['consulta']['genitourinario_percucion_izquierda']
     new_consulta.genitourinario_tacto_vaginal = data['consulta']['genitourinario_tacto_vaginal']
@@ -161,10 +167,18 @@ def ajax_add_historia(request):
     new_consulta.plan_terapeutico = data['consulta']['plan_terapeutico']
     new_consulta.owner = request.user
     new_consulta.save()
+    for proceder in data['ListaProcederes']:
+        new_proceder = ProcederesRealizadosModel()
+        proceder_model = ProcederesModel.objects.get(pk=proceder['proceder'])
+        new_proceder.consulta = new_consulta
+        new_proceder.proceder = proceder_model
+        new_proceder.owner = request.user
+        new_proceder.cantidad = proceder['cant']
+        new_proceder.save()
     return JsonResponse({"data": new_historia.id}, status=200)
 
 
-@login_required()
+@login_required(login_url='login')
 def ajax_add_consulta(request):
     data = json.loads(request.body.decode('utf-8'))
     new_historia = HistoriaModel.objects.get(pk=data['consulta']['id_historia'])
@@ -182,7 +196,7 @@ def ajax_add_consulta(request):
     new_consulta.pulso = data['consulta']['pulso']
     new_consulta.tAuxiliar = data['consulta']['tAuxiliar']
     new_consulta.tReactal = data['consulta']['tReactal']
-    new_consulta.peso_habitual = data['consulta']['peso_habitual']
+    # new_consulta.peso_habitual = data['consulta']['peso_habitual']
     new_consulta.peso_actual = data['consulta']['peso_actual']
     new_consulta.talla = data['consulta']['talla']
     new_consulta.imc = data['consulta']['imc']
@@ -214,8 +228,9 @@ def ajax_add_consulta(request):
     new_consulta.abdomen_auscultacion = data['consulta']['abdomen_auscultacion']
     new_consulta.obstetrico_maniobre_leopold = data['consulta']['obstetrico_maniobre_leopold']
     new_consulta.obstetrico_au = data['consulta']['obstetrico_au']
-    new_consulta.genitourinario_percucion_lumbar = data['consulta']['genitourinario_percucion_lumbar']
+    # new_consulta.genitourinario_percucion_lumbar = data['consulta']['genitourinario_percucion_lumbar']
     new_consulta.genitourinario_percucion_derecha = data['consulta']['genitourinario_percucion_derecha']
+    new_consulta.genitourinario_puntos_pielos = data['consulta']['genitourinario_puntos_pielos']
     new_consulta.genitourinario_percucion_izquierda = data['consulta']['genitourinario_percucion_izquierda']
     new_consulta.genitourinario_tacto_vaginal = data['consulta']['genitourinario_tacto_vaginal']
     new_consulta.genitourinario_vulva = data['consulta']['genitourinario_vulva']
@@ -251,10 +266,18 @@ def ajax_add_consulta(request):
     new_consulta.plan_terapeutico = data['consulta']['plan_terapeutico']
     new_consulta.owner = request.user
     new_consulta.save()
+    for proceder in data['ListaProcederes']:
+        new_proceder = ProcederesRealizadosModel()
+        proceder_model = ProcederesModel.objects.get(pk=proceder['proceder'])
+        new_proceder.consulta = new_consulta
+        new_proceder.proceder = proceder_model
+        new_proceder.owner = request.user
+        new_proceder.cantidad = proceder['cant']
+        new_proceder.save()
     return JsonResponse({"data": new_historia.id}, status=200)
 
 
-@login_required()
+@login_required(login_url='login')
 def historias_ajax(request):
     data = []
     # if request.user.userdata.is_admin:
@@ -333,7 +356,7 @@ def historias_ajax(request):
                          'draw': request.GET.get('draw')})
 
 
-@login_required()
+@login_required(login_url='login')
 def hoja_cargo_ajax(request):
     data = []
     # if request.user.userdata.is_admin:
@@ -355,8 +378,6 @@ def hoja_cargo_ajax(request):
     if id_historia:
         consultas_ = consultas_.filter(id=id_historia)
 
-    print(request.GET)
-    print("----------------888888----------")
     #  Nombre
     nombre = request.GET.get('columns[1][search][value]')
     if nombre:
@@ -368,7 +389,7 @@ def hoja_cargo_ajax(request):
         consultas_ = consultas_.filter(historia__telefono__icontains=telefono)
 
     print(request.GET.get('columns[7][search][value]'))
-    print("Hola")
+    # print("Hola")
     #  Fecha
     rango_fecha = request.GET.get('columns[7][search][value]')
     if rango_fecha:
@@ -384,6 +405,7 @@ def hoja_cargo_ajax(request):
         historias_ = consultas_[int(start):int(start) + int(length)]
     idx = 1
     for consula in consultas_:
+        procederes = ProcederesRealizadosModel.objects.all().filter(consulta=consula)
         historia_response = {
             "count": idx,
             "id": consula.id,
@@ -391,6 +413,7 @@ def hoja_cargo_ajax(request):
             "sexo": consula.historia.sexo,
             "telefono": consula.historia.telefono,
             "motivo_consulta": consula.motivo_consulta,
+            "procederes": [p.to_dic for p in procederes],
             # "grupo_factor": historia.grupo_factor,
             # "estado_civil": historia.estado_civil,
             # "ocupacion": historia.ocupacion,
@@ -404,7 +427,7 @@ def hoja_cargo_ajax(request):
                          'draw': request.GET.get('draw')})
 
 
-@login_required()
+@login_required(login_url='login')
 def edit_historia(request, id_):
     historia = get_object_or_404(HistoriaModel, pk=id_)
     listaOperaciones = OperacionesModel.objects.filter(historia=id_).order_by('anyo').all()
@@ -432,13 +455,13 @@ def edit_historia(request, id_):
     return render(request, "historias_edit.html", {"formHistoria": formHistoria, "historia": historia}, )
 
 
-@login_required()
+@login_required(login_url='login')
 def get_operacionesByhistoria(request, id_):
     historia = get_object_or_404(HistoriaModel, pk=id_)
     return JsonResponse({"lista": [p.to_dic for p in historia.operaciones.all()], })
 
 
-@login_required()
+@login_required(login_url='login')
 def ajax_edit_historia(request, id_):
     historia = get_object_or_404(HistoriaModel, pk=id_)
     data = json.loads(request.body.decode('utf-8'))
@@ -469,14 +492,14 @@ def ajax_edit_historia(request, id_):
     return JsonResponse({"data": historia.id}, status=200)
 
 
-@login_required()
+@login_required(login_url='login')
 def delete_complementario_ajax(request, id_):
     complementario = get_object_or_404(ComplementariosModel, pk=id_)
     complementario.delete()
     return JsonResponse({"data": "ok"}, status=200)
 
 
-@login_required()
+@login_required(login_url='login')
 def print_receipt(request, id_):
     historia = get_object_or_404(HistoriaModel, pk=id_)
     ctx = {
@@ -487,7 +510,7 @@ def print_receipt(request, id_):
     return render(request, "historia_print.html", {"ctx": ctx, "historia": historia}, )
 
 
-@login_required()
+@login_required(login_url='login')
 def print_consulta(request, id_):
     consulta = get_object_or_404(ConsultaModel, pk=id_)
     # historia = get_object_or_404(HistoriaModel, consulta.historia_id)
@@ -527,7 +550,7 @@ def print_consulta(request, id_):
 #             'formComplementario': formComplementario, 'complementarios': complementarios
 #         })
 
-@login_required()
+
 def upload_complementario(request, id_):
     complementarios = ComplementariosModel.objects.filter(consulta=id_).order_by('id').all()
     s3config = {

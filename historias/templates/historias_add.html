@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% load static %}
-{% block style %}
 
+{% block style %}
     <link href="{% static 'plugins/select2/css/select2.min.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/parsley/parsley.css' %}" rel="stylesheet">
     <link href="{% static 'plugins/bootstrap-datepicker/bootstrap-datepicker.min.css' %}" rel="stylesheet">
@@ -29,6 +29,10 @@
                                            id="error_historia">Historia </a>
                                     </li>
                                     <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-extra-1"
+                                           id="error_historia">Datos Extras </a>
+                                    </li>
+                                    <li>
                                         <a data-toggle="tab" href="#demo-stk-lft-tab-2" id="error_interrogatorio">Interrogatorio</a>
                                     </li>
                                     <li>
@@ -44,7 +48,10 @@
                                         <a data-toggle="tab" href="#demo-stk-lft-tab-6">Cardiovascular</a>
                                     </li>
                                     <li>
-                                        <a data-toggle="tab" href="#demo-stk-lft-tab-8">Abdomen y Obstétrico</a>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-8">Abdomen</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#demo-stk-lft-tab-Obstetrico-8">Obstétrico</a>
                                     </li>
                                     <li>
                                         <a data-toggle="tab" href="#demo-stk-lft-tab-9">Aparato Genitourinario</a>
@@ -83,33 +90,59 @@
                                                 </div>
                                                 <br/>
                                                 <div class="row">
-                                                    <div class=" col-lg-3">
+                                                    <div class=" col-lg-4">
                                                         {{ formHistoria.sexo.errors }}
                                                         {{ formHistoria.sexo.label }}
                                                         {{ formHistoria.sexo }}
                                                     </div>
-                                                    <div class=" col-lg-3">
-                                                        {{ formHistoria.ocupacion.errors }}
-                                                        {{ formHistoria.ocupacion.label }}
-                                                        {{ formHistoria.ocupacion }}
-                                                    </div>
-                                                    <div class="col-lg-3 " >
+                                                    <div class="col-lg-4">
                                                         {{ formHistoria.fecha_nacimiento.errors }}
                                                         {{ formHistoria.fecha_nacimiento.label }}
                                                         {{ formHistoria.fecha_nacimiento }}
                                                     </div>
-                                                    <div class=" col-lg-3">
+                                                    <div class="col-lg-4">
+                                                        Edad
+                                                        <input type="text" disabled name="edad"
+                                                               class="form-control historia" id="id_edad">
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="form-group">
+                                                    {{ formHistoria.alergias.errors }}
+                                                    {{ formHistoria.alergias.label }}
+                                                    {{ formHistoria.alergias }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formHistoria.antecedentes_perosnales.errors }}
+                                                    {{ formHistoria.antecedentes_perosnales.label }}
+                                                    {{ formHistoria.antecedentes_perosnales }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formHistoria.antecedentes_familiares.errors }}
+                                                    {{ formHistoria.antecedentes_familiares.label }}
+                                                    {{ formHistoria.antecedentes_familiares }}
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-extra-1" class="tab-pane fade">
+                                        <form id="formDatosExtra" class="form-horizontal">
+                                            {% csrf_token %}
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class=" col-lg-6">
+                                                        {{ formHistoria.ocupacion.errors }}
+                                                        {{ formHistoria.ocupacion.label }}
+                                                        {{ formHistoria.ocupacion }}
+                                                    </div>
+                                                    <div class=" col-lg-6">
                                                         {{ formHistoria.estado_civil.errors }}
                                                         {{ formHistoria.estado_civil.label }}
                                                         {{ formHistoria.estado_civil }}
                                                     </div>
                                                 </div>
                                                 <br/>
-                                                <div class="form-group">
-                                                    {{ formHistoria.antecedentes_familiares.errors }}
-                                                    {{ formHistoria.antecedentes_familiares.label }}
-                                                    {{ formHistoria.antecedentes_familiares }}
-                                                </div>
                                                 <div class="col-sm-6">
                                                     <div class="row">
                                                         {{ formHistoria.grupo_factor.errors }}
@@ -187,11 +220,7 @@
                                                 {{ formConsulta.historia_enfermedad_actual.label }}
                                                 {{ formConsulta.historia_enfermedad_actual }}
                                             </div>
-                                            <div class="form-group">
-                                                {{ formHistoria.antecedentes_perosnales.errors }}
-                                                {{ formHistoria.antecedentes_perosnales.label }}
-                                                {{ formHistoria.antecedentes_perosnales }}
-                                            </div>
+
                                         </form>
                                     </div>
                                     <div id="demo-stk-lft-tab-3" class="tab-pane fade">
@@ -239,11 +268,11 @@
                                                     {{ formConsulta.tReactal.label }}
                                                     {{ formConsulta.tReactal }}
                                                 </div>
-                                                <div class="col-sm-2">
-                                                    {{ formConsulta.peso_habitual.errors }}
-                                                    {{ formConsulta.peso_habitual.label }}
-                                                    {{ formConsulta.peso_habitual }}
-                                                </div>
+                                                {#                                                <div class="col-sm-2">#}
+                                                {#                                                    {{ formConsulta.peso_habitual.errors }}#}
+                                                {#                                                    {{ formConsulta.peso_habitual.label }}#}
+                                                {#                                                    {{ formConsulta.peso_habitual }}#}
+                                                {#                                                </div>#}
                                                 <div class="col-sm-2">
                                                     {{ formConsulta.peso_actual.errors }}
                                                     {{ formConsulta.peso_actual.label }}
@@ -254,7 +283,7 @@
                                                     {{ formConsulta.talla.label }}
                                                     {{ formConsulta.talla }}
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-4">
                                                     {{ formConsulta.imc.errors }}
                                                     {{ formConsulta.imc.label }}
                                                     {{ formConsulta.imc }}
@@ -395,6 +424,14 @@
                                                     {{ formConsulta.tiraje }}
                                                 </div>
                                             </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.estertores.errors }}
+                                                    {{ formConsulta.estertores.label }}
+                                                    {{ formConsulta.estertores }}
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                     <div id="demo-stk-lft-tab-6" class="tab-pane fade">
@@ -444,6 +481,10 @@
                                                     {{ formConsulta.abdomen_auscultacion }}
                                                 </div>
                                             </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-Obstetrico-8" class="tab-pane fade">
+                                        <form id="FormObstetrico" class="form-horizontal">
                                             <h5>Exámen Obstétrico</h5>
                                             <hr/>
                                             <div class="row">
@@ -466,47 +507,52 @@
                                     <div id="demo-stk-lft-tab-9" class="tab-pane fade">
                                         <form id="FormGenitourinario" class="form-horizontal">
 
-                                            <h5>Aparato Genitourinario</h5>
+                                            <h5>Aparato Urinario</h5>
                                             <hr/>
                                             <div class="row">
-                                                <div class="col-sm-3 text-right">
-                                                    <h4>Puño Percusión</h4>
+                                                <div class="col-sm-4 text-right">
+                                                    <br>
+                                                    <p>Puño Percusión</p>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    {{ formConsulta.genitourinario_percucion_lumbar.errors }}
-                                                    {{ formConsulta.genitourinario_percucion_lumbar.label }}
-                                                    {{ formConsulta.genitourinario_percucion_lumbar }}
-                                                </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     {{ formConsulta.genitourinario_percucion_derecha.errors }}
                                                     {{ formConsulta.genitourinario_percucion_derecha.label }}
                                                     {{ formConsulta.genitourinario_percucion_derecha }}
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     {{ formConsulta.genitourinario_percucion_izquierda.errors }}
                                                     {{ formConsulta.genitourinario_percucion_izquierda.label }}
                                                     {{ formConsulta.genitourinario_percucion_izquierda }}
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                {{ formConsulta.genitourinario_tacto_vaginal.errors }}
-                                                {{ formConsulta.genitourinario_tacto_vaginal.label }}
-                                                {{ formConsulta.genitourinario_tacto_vaginal }}
+                                                {{ formConsulta.genitourinario_puntos_pielos.errors }}
+                                                {{ formConsulta.genitourinario_puntos_pielos.label }}
+                                                {{ formConsulta.genitourinario_puntos_pielos }}
                                             </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_vulva.errors }}
-                                                {{ formConsulta.genitourinario_vulva.label }}
-                                                {{ formConsulta.genitourinario_vulva }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_flujo.errors }}
-                                                {{ formConsulta.genitourinario_flujo.label }}
-                                                {{ formConsulta.genitourinario_flujo }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_cuello_uterino.errors }}
-                                                {{ formConsulta.genitourinario_cuello_uterino.label }}
-                                                {{ formConsulta.genitourinario_cuello_uterino }}
+                                            <div id="id_aparato_genitourinario">
+                                                <h5>Aparato Genitourinario</h5>
+                                                <hr/>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_tacto_vaginal.errors }}
+                                                    {{ formConsulta.genitourinario_tacto_vaginal.label }}
+                                                    {{ formConsulta.genitourinario_tacto_vaginal }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_vulva.errors }}
+                                                    {{ formConsulta.genitourinario_vulva.label }}
+                                                    {{ formConsulta.genitourinario_vulva }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_flujo.errors }}
+                                                    {{ formConsulta.genitourinario_flujo.label }}
+                                                    {{ formConsulta.genitourinario_flujo }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_cuello_uterino.errors }}
+                                                    {{ formConsulta.genitourinario_cuello_uterino.label }}
+                                                    {{ formConsulta.genitourinario_cuello_uterino }}
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -714,6 +760,41 @@
                                                 {{ formConsulta.plan_terapeutico.errors }}
                                                 {{ formConsulta.plan_terapeutico.label }}
                                                 {{ formConsulta.plan_terapeutico }}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <form id="operaciones">
+                                                        <div class="col-sm-6" id="inp_proceder">
+                                                            Procederes
+                                                            <select class="form-control proceder" id="id_proceder"
+                                                                    name="operacion">
+                                                                <option value="">Seleccione</option>
+                                                                {% for listaProcedere in listaProcederes %}
+                                                                    <option value="{{ listaProcedere.id }}">{{ listaProcedere.nombre }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-4" id="inp_cant_proceder">
+                                                            Cantidad
+                                                            <input class="form-control" type="number"
+                                                                   id="id_cant_proceder"
+                                                                   name="cant_proceder" value="1" min="1">
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <br/>
+                                                            <button type="button" class="btn btn-info btn-icon"
+                                                                    id="add_proceder"><i
+                                                                    class="demo-psi-add icon-lg"></i></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div id="div_proceder">
+
+                                                </div>
+
+
                                             </div>
                                         </form>
                                     </div>

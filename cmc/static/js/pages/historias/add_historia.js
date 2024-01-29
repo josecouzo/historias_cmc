@@ -1,6 +1,6 @@
 let ListaOperaciones = [];
+let ListaProcederes = [];
 $('#demo-dp-txtinput input').datepicker();
-
 
 function insertar() {
     let valid = true;
@@ -36,6 +36,12 @@ function insertar() {
         var formHitoriaClin = $("#formHistoria").serializeArray();
         var historia = new Object();
         $.each(formHitoriaClin, function (i, field) {
+            historia[field.name] = field.value;
+        });
+
+        var formDatosExtra = $("#formDatosExtra").serializeArray();
+        var DatosExtra = new Object();
+        $.each(formDatosExtra, function (i, field) {
             historia[field.name] = field.value;
         });
         historia['fumar'] = $('#id_fumar').prop('checked');
@@ -80,6 +86,12 @@ function insertar() {
             consulta[field.name] = field.value;
         });
 
+        var FormObstetrico = $("#FormObstetrico").serializeArray();
+        var Obstetrico = new Object();
+        $.each(FormObstetrico, function (i, field) {
+            consulta[field.name] = field.value;
+        });
+
         var FormGenitourinario = $("#FormGenitourinario").serializeArray();
         var Genitourinario = new Object();
         $.each(FormGenitourinario, function (i, field) {
@@ -112,6 +124,7 @@ function insertar() {
         var ConsultaGeneral = {
             'historia': historia,
             'listaOperaciones': ListaOperaciones,
+            'ListaProcederes': ListaProcederes,
             'consulta': consulta,
         };
         fetch("/historias/add-historia-ajax/", {
@@ -127,7 +140,7 @@ function insertar() {
             }
             return response.json()
         }).then(json => {
-             swal('Exito', 'Se ha insertado la Historia Clinica con Exito', 'success');
+            swal('Exito', 'Se ha insertado la Historia Clinica con Exito', 'success');
             setTimeout("location.href='/historias/historias/'", 1500);
             valid = true;
         }).catch(e => {
@@ -140,6 +153,7 @@ function insertar() {
 $('#add_historia').on('click', function () {
     insertar();
 });
+
 $('#add_operacion').on('click', function () {
     let valid = true;
     if ($("#id_operacion").val() == "") {
@@ -185,3 +199,132 @@ function removeItem(i) {
     });
     $('#item-' + i).remove();
 }
+
+$('#add_proceder').on('click', function () {
+    let valid = true;
+    if ($("#id_proceder").val() == "") {
+        $("#inp_proceder").addClass('has-error');
+        valid = false;
+    }
+    if ($("#id_cant_proceder").val() == "") {
+        $("#inp_cant_proceder").addClass('has-error');
+        valid = false;
+    }
+    if (valid) {
+        let proceder = {
+            proceder: $("#id_proceder").val(),
+            cant: $("#id_cant_proceder").val(),
+        }
+        ListaProcederes.push(proceder);
+        proceder['id'] = ListaProcederes.length;
+        var item = `<div class="panel panel-dark" id="item-${ListaProcederes.length}">
+                    <div class="panel-heading">
+                        <div class="panel-control">
+                            <button class="btn btn-danger" type="button" onclick="removeItemProceder(${ListaProcederes.length})"><i
+                                    class="icon demo-pli-trash"></i></button>
+                        </div>
+                        <h3 class="panel-title">${$("#id_cant_proceder").val()} -${$("#id_proceder option:selected").text()}</h3>
+                    </div>
+                </div>`;
+        $("#div_proceder").append(item);
+        $("#id_proceder").val("");
+        $("#id_cant_proceder").val("");
+    }
+});
+
+function removeItemProceder(i) {
+    ListaProcederes = ListaProcederes.filter(function (obj) {
+        if (obj['id'] === i) {
+            return obj['id'] !== i;
+        } else {
+            return true;
+        }
+    });
+    $('#item-' + i).remove();
+}
+
+$("#id_fecha_nacimiento").on("change", function () {
+    // Obtener la fecha de nacimiento desde el input
+    var fechaNacimiento = $("#id_fecha_nacimiento").val();
+
+
+    // Calcular la edad
+    var edad = calcularEdad(fechaNacimiento);
+
+    $("#id_edad").val(edad);
+});
+
+function calcularEdad(fechaNacimiento) {
+    // Obtener la fecha actual
+    var fechaActual = new Date();
+
+    // Convertir la fecha de nacimiento a un objeto de fecha
+    var fechaNac = new Date(fechaNacimiento);
+
+    // Calcular la diferencia en milisegundos
+    var diferencia = fechaActual - fechaNac;
+
+    // Calcular la edad en años
+    var edadEnAnios = Math.floor(diferencia / (1000 * 60 * 60 * 24 * 365.25));
+
+    return edadEnAnios;
+}
+
+$('#id_peso_actual').on( "keyup", function() {
+    // Obtener los valores de altura y peso
+    var altura = parseFloat($("#id_talla").val());
+    var peso = parseFloat($("#id_peso_actual").val());
+    console.log("entro");
+
+    // Verificar si los valores son numéricos
+    if (!isNaN(altura) && !isNaN(peso)) {
+
+        // Calcular el índice de masa corporal (IMC)
+        var imc = peso / ((altura / 100) * (altura / 100));
+
+        // Mostrar el resultado
+        $("#id_imc").val(imc.toFixed(2));
+    }
+
+});
+
+$('#id_talla').on( "keyup", function() {
+    // Obtener los valores de altura y peso
+    var altura = parseFloat($("#id_talla").val());
+    var peso = parseFloat($("#id_peso_actual").val());
+    console.log("entro");
+
+    // Verificar si los valores son numéricos
+    if (!isNaN(altura) && !isNaN(peso)) {
+
+        // Calcular el índice de masa corporal (IMC)
+        var imc = peso / ((altura / 100) * (altura / 100));
+
+        // Mostrar el resultado
+        $("#id_imc").val(imc.toFixed(2));
+    }
+
+});
+
+$(document).ready(function() {
+  var sexo = $("#id_sexo").val();
+    if (sexo == "F") {
+        $("#id_aparato_genitourinario").show();
+    } else {
+        $("#id_aparato_genitourinario").hide();
+
+    }
+});
+
+$("#id_sexo").change(function () {
+    // This function will be executed when the value of the input changes
+    var sexo = $(this).val();
+    if (sexo == "F") {
+        $("#id_aparato_genitourinario").show();
+    } else {
+        $("#id_aparato_genitourinario").hide();
+
+    }
+});
+
+// id_aparato_genitourinario
