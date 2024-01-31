@@ -481,6 +481,14 @@
                                                     {{ formConsulta.abdomen_auscultacion }}
                                                 </div>
                                             </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.abdomen_region_inginal.errors }}
+                                                    {{ formConsulta.abdomen_region_inginal.label }}
+                                                    {{ formConsulta.abdomen_region_inginal }}
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                     <div id="demo-stk-lft-tab-Obstetrico-8" class="tab-pane fade">
@@ -529,6 +537,20 @@
                                                 {{ formConsulta.genitourinario_puntos_pielos.errors }}
                                                 {{ formConsulta.genitourinario_puntos_pielos.label }}
                                                 {{ formConsulta.genitourinario_puntos_pielos }}
+                                            </div>
+                                            <h5>Aparato Genital</h5>
+                                            <hr/>
+                                            <div id="id_aparato_genitourinario_masculino">
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_testiculo.errors }}
+                                                    {{ formConsulta.genitourinario_testiculo.label }}
+                                                    {{ formConsulta.genitourinario_testiculo }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_glande.errors }}
+                                                    {{ formConsulta.genitourinario_glande.label }}
+                                                    {{ formConsulta.genitourinario_glande }}
+                                                </div>
                                             </div>
                                             <div id="id_aparato_genitourinario">
                                                 <h5>Aparato Genitourinario</h5>

@@ -67,7 +67,7 @@ function historiasButton (data)  {
 
 function formatAcciones(data) {
     return `<a href="/historias/add-consulta/${data.id}">
-                <button class="btn btn-success  btn-xs btn-icon " title="Insertar Consultas"><i class="fa fa-file-pdf-o icon-lg"></i></button>
+                <button class="btn btn-success  btn-xs btn-icon " title="Insertar Consultas"><i class="fa fa-plus icon-lg"></i></button>
             </a>
             <a href="/historias/edit-historia/${data.id}">
                 <button class="btn btn-primary btn-xs btn-icon " title="Esditar Historia"><i class="fa fa-pencil icon-lg"></i></button>

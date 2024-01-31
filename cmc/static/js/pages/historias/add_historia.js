@@ -310,8 +310,10 @@ $(document).ready(function() {
   var sexo = $("#id_sexo").val();
     if (sexo == "F") {
         $("#id_aparato_genitourinario").show();
+        $("#id_aparato_genitourinario_masculino").hide();
     } else {
         $("#id_aparato_genitourinario").hide();
+        $("#id_aparato_genitourinario_masculino").show();
 
     }
 });
@@ -321,8 +323,10 @@ $("#id_sexo").change(function () {
     var sexo = $(this).val();
     if (sexo == "F") {
         $("#id_aparato_genitourinario").show();
+        $("#id_aparato_genitourinario_masculino").hide();
     } else {
         $("#id_aparato_genitourinario").hide();
+        $("#id_aparato_genitourinario_masculino").show();
 
     }
 });

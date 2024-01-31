@@ -1,4 +1,5 @@
 let ListaOperaciones = [];
+let ListaProcederes = [];
 
 function insertar() {
     let valid = true;
@@ -204,3 +205,16 @@ $('#id_talla').on( "keyup", function() {
     }
 
 });
+
+$(document).ready(function() {
+  var sexo = $("#id_sexo").val();
+    if (sexo == "F") {
+        $("#id_aparato_genitourinario").show();
+        $("#id_aparato_genitourinario_masculino").hide();
+    } else {
+        $("#id_aparato_genitourinario").hide();
+        $("#id_aparato_genitourinario_masculino").show();
+
+    }
+});
+

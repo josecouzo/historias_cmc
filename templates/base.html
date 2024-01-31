@@ -375,19 +375,18 @@
 
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{% url 'historias' %}">
                                         <i class="fa fa-folder"></i>
-                                        <span class="menu-title">Historias Clinicas</span>
-                                        <i class="arrow"></i>
+                                        <span class="menu-title">Historias</span>
                                     </a>
-                                    <ul class="collapse">
-                                        <li><a href="{% url 'historias' %}">Historias</a></li>
-                                        <li><a href="{% url 'add_historia' %}">Insertar</a></li>
-                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{% url 'add_historia' %}">
+                                        <i class="fa fa-plus"></i>
+                                        <span class="menu-title">Insertar Historias</span>
+                                    </a>
                                 </li>
                             </ul>
-
-
                         </div>
                     </div>
                 </div>

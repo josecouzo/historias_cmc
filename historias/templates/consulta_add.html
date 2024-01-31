@@ -115,6 +115,7 @@
                                 <!--Tabs Content-->
                                 <div class="tab-content">
                                     <div id="demo-stk-lft-tab-2" class="tab-pane fade active in">
+                                        <input type="hidden" value="{{ historia.sexo }}" id="id_sexo">
                                         <form id="formInterrogatorio" class="form-horizontal">
                                             <input type="hidden" name="id_historia" id="id_historia"
                                                    value="{{ historia.id }}">
@@ -136,7 +137,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div id="demo-stk-lft-tab-3" class="tab-pane fade">
+                                                                <div id="demo-stk-lft-tab-3" class="tab-pane fade">
                                         <form id="formEFGeneral" class="form-horizontal">
                                             <h4>Examen Físico</h4>
                                             <hr/>
@@ -181,11 +182,11 @@
                                                     {{ formConsulta.tReactal.label }}
                                                     {{ formConsulta.tReactal }}
                                                 </div>
-{#                                                <div class="col-sm-2">#}
-{#                                                    {{ formConsulta.peso_habitual.errors }}#}
-{#                                                    {{ formConsulta.peso_habitual.label }}#}
-{#                                                    {{ formConsulta.peso_habitual }}#}
-{#                                                </div>#}
+                                                {#                                                <div class="col-sm-2">#}
+                                                {#                                                    {{ formConsulta.peso_habitual.errors }}#}
+                                                {#                                                    {{ formConsulta.peso_habitual.label }}#}
+                                                {#                                                    {{ formConsulta.peso_habitual }}#}
+                                                {#                                                </div>#}
                                                 <div class="col-sm-2">
                                                     {{ formConsulta.peso_actual.errors }}
                                                     {{ formConsulta.peso_actual.label }}
@@ -337,6 +338,14 @@
                                                     {{ formConsulta.tiraje }}
                                                 </div>
                                             </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.estertores.errors }}
+                                                    {{ formConsulta.estertores.label }}
+                                                    {{ formConsulta.estertores }}
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                     <div id="demo-stk-lft-tab-6" class="tab-pane fade">
@@ -386,6 +395,18 @@
                                                     {{ formConsulta.abdomen_auscultacion }}
                                                 </div>
                                             </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    {{ formConsulta.abdomen_region_inginal.errors }}
+                                                    {{ formConsulta.abdomen_region_inginal.label }}
+                                                    {{ formConsulta.abdomen_region_inginal }}
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="demo-stk-lft-tab-Obstetrico-8" class="tab-pane fade">
+                                        <form id="FormObstetrico" class="form-horizontal">
                                             <h5>Exámen Obstétrico</h5>
                                             <hr/>
                                             <div class="row">
@@ -408,17 +429,13 @@
                                     <div id="demo-stk-lft-tab-9" class="tab-pane fade">
                                         <form id="FormGenitourinario" class="form-horizontal">
 
-                                            <h5>Aparato Genitourinario</h5>
+                                            <h5>Aparato Urinario</h5>
                                             <hr/>
                                             <div class="row">
                                                 <div class="col-sm-4 text-right">
-                                                    <h4>Puño Percusión</h4>
+                                                    <br>
+                                                    <p>Puño Percusión</p>
                                                 </div>
-{#                                                <div class="col-sm-3">#}
-{#                                                    {{ formConsulta.genitourinario_percucion_lumbar.errors }}#}
-{#                                                    {{ formConsulta.genitourinario_percucion_lumbar.label }}#}
-{#                                                    {{ formConsulta.genitourinario_percucion_lumbar }}#}
-{#                                                </div>#}
                                                 <div class="col-sm-4">
                                                     {{ formConsulta.genitourinario_percucion_derecha.errors }}
                                                     {{ formConsulta.genitourinario_percucion_derecha.label }}
@@ -435,25 +452,41 @@
                                                 {{ formConsulta.genitourinario_puntos_pielos.label }}
                                                 {{ formConsulta.genitourinario_puntos_pielos }}
                                             </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_tacto_vaginal.errors }}
-                                                {{ formConsulta.genitourinario_tacto_vaginal.label }}
-                                                {{ formConsulta.genitourinario_tacto_vaginal }}
+                                            <h5>Aparato Genital</h5>
+                                            <hr/>
+                                            <div id="id_aparato_genitourinario_masculino">
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_testiculo.errors }}
+                                                    {{ formConsulta.genitourinario_testiculo.label }}
+                                                    {{ formConsulta.genitourinario_testiculo }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_glande.errors }}
+                                                    {{ formConsulta.genitourinario_glande.label }}
+                                                    {{ formConsulta.genitourinario_glande }}
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_vulva.errors }}
-                                                {{ formConsulta.genitourinario_vulva.label }}
-                                                {{ formConsulta.genitourinario_vulva }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_flujo.errors }}
-                                                {{ formConsulta.genitourinario_flujo.label }}
-                                                {{ formConsulta.genitourinario_flujo }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ formConsulta.genitourinario_cuello_uterino.errors }}
-                                                {{ formConsulta.genitourinario_cuello_uterino.label }}
-                                                {{ formConsulta.genitourinario_cuello_uterino }}
+                                            <div id="id_aparato_genitourinario">
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_tacto_vaginal.errors }}
+                                                    {{ formConsulta.genitourinario_tacto_vaginal.label }}
+                                                    {{ formConsulta.genitourinario_tacto_vaginal }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_vulva.errors }}
+                                                    {{ formConsulta.genitourinario_vulva.label }}
+                                                    {{ formConsulta.genitourinario_vulva }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_flujo.errors }}
+                                                    {{ formConsulta.genitourinario_flujo.label }}
+                                                    {{ formConsulta.genitourinario_flujo }}
+                                                </div>
+                                                <div class="form-group">
+                                                    {{ formConsulta.genitourinario_cuello_uterino.errors }}
+                                                    {{ formConsulta.genitourinario_cuello_uterino.label }}
+                                                    {{ formConsulta.genitourinario_cuello_uterino }}
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -662,8 +695,7 @@
                                                 {{ formConsulta.plan_terapeutico.label }}
                                                 {{ formConsulta.plan_terapeutico }}
                                             </div>
-                                        </form>
-                                        <div class="col-sm-6">
+                                            <div class="col-sm-6">
                                                 <div class="row">
                                                     <form id="operaciones">
                                                         <div class="col-sm-6" id="inp_proceder">
@@ -698,6 +730,7 @@
 
 
                                             </div>
+                                        </form>
                                     </div>
 
                                 </div>

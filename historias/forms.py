@@ -149,6 +149,8 @@ class ConsultaForm(forms.Form):
     # Abdomen
     abdomen_inspecion = forms.CharField(label="Inspección", max_length=300,
                                         widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    abdomen_region_inginal = forms.CharField(label="Reguión Inguinal", max_length=300,
+                                        widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     abdomen_palpacion = forms.CharField(label="Palpación", max_length=300,
                                         widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     abdomen_percucion = forms.CharField(label="Percusión", max_length=300,
@@ -170,6 +172,10 @@ class ConsultaForm(forms.Form):
     genitourinario_tacto_vaginal = forms.CharField(label="Tacto Vaginal", max_length=300,
                                                    widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     genitourinario_puntos_pielos = forms.CharField(label="Puntos Pielorenoureterales", max_length=300,
+                                                   widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    genitourinario_testiculo = forms.CharField(label="Testiculo", max_length=300,
+                                                   widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
+    genitourinario_glande = forms.CharField(label="Glande", max_length=300,
                                                    widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
     genitourinario_vulva = forms.CharField(label="Vulva", max_length=300,
                                            widget=forms.TextInput(attrs={'class': 'form-control consulta'}))
