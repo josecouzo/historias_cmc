@@ -8,17 +8,16 @@
 
 1. [Features](#features)
 2. [Tech Stack](#tech-stack)
-3. [Screenshots](#screenshots)
-4. [Getting Started](#getting-started)
+3. [Getting Started](#getting-started)
 
    * [Prerequisites](#prerequisites)
    * [Installation](#installation)
    * [Environment Variables](#environment-variables)
    * [Running Locally](#running-locally)
-5. [Project Structure](#project-structure)
-6. [Deployment Guide](#deployment-guide)
-7. [Contributing](#contributing)
-8. [License](#license)
+4. [Project Structure](#project-structure)
+5. [Deployment Guide](#deployment-guide)
+6. [Contributing](#contributing)
+7. [License](#license)
 
 ---
 
@@ -49,12 +48,6 @@
 | **Host**         | Render.com (example) / Any WSGI host                                |
 
 All Python deps are pinned in [`requirements.txt`](requirements.txt).
-
----
-
-## Screenshots
-
-> *Add a few screenshots or GIFs of the main UI here.*
 
 ---
 
